@@ -1,5 +1,7 @@
-import { Column, Entity, ForeignKey, JoinColumn, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
-
+import { Column, Entity, ForeignKey, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { PrestamoEntity } from "./prestamo.entity";
+import { CiudadEntity } from "./ciudad.entity";
+import { FavoritosLectorEntity } from "./favoritoLector.entity";
 
 @Entity('lector')
 export class LectorEntity {
@@ -25,9 +27,9 @@ export class LectorEntity {
    ciudadId: CiudadEntity;
 
 
-   @OneToMany(() => FavoritoslectorEntity, {nullable: true})
+   @OneToMany(() => FavoritosLectorEntity, {nullable: true})
    @JoinColumn({name: "favoritosLector"})
-   favoritosLector: FavoritoslectorEntity;
+   favoritosLector: FavoritosLectorEntity;
 
 
 
