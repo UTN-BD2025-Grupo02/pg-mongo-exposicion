@@ -11,7 +11,7 @@ export class TipoLibroEntity {
   @Column({ type: 'varchar', length: 50 })
   nombre: string;
 
-  @Column({ type: 'text', length: 50, nullable: true })
+  @Column({ type: 'varchar', length: 50, nullable: true })
   descripcion: string;
 
   @OneToMany(() => LibroEntity, libro => libro.tipoLibro)
