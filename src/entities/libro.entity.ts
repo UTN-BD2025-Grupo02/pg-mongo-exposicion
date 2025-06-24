@@ -1,5 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { EstadoLibroEntity } from './estadoLibro.entity';
+import { TipoLibroEntity } from './tipolibro.entity';
 
 @Entity('libro')
 export class LibroEntity {
@@ -18,6 +19,10 @@ export class LibroEntity {
   @ManyToOne(() => EstadoLibroEntity, (estadoLibro) => estadoLibro.libros)
   @JoinColumn({name: 'estado'})
   estado: EstadoLibroEntity;
+
+  @ManyToOne(() => TipoLibroEntity, (tipoLibro) => tipoLibro.libros)
+  @JoinColumn({name: 'tipoLibro'})
+  tipoLibro: TipoLibroEntity;
 
 
 }
