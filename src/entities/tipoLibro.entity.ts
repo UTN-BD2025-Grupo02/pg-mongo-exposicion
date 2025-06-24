@@ -17,7 +17,7 @@ export class TipoLibroEntity {
   @OneToMany(() => LibroEntity, libro => libro.tipoLibro)
   libros: LibroEntity[];
 
-  @OneToMany(() => FavoritosLectorEntity, fav => fav.tipoLibro)
+  @OneToMany(() => FavoritosLectorEntity, fav => fav.idTipoLibro)
   favoritos: FavoritosLectorEntity[];
   
 }

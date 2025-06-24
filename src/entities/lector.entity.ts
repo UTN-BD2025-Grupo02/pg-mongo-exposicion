@@ -1,4 +1,4 @@
-import { Column, Entity, ForeignKey, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { PrestamoEntity } from "./prestamo.entity";
 import { CiudadEntity } from "./ciudad.entity";
 import { FavoritosLectorEntity } from "./favoritoLector.entity";
@@ -18,18 +18,16 @@ export class LectorEntity {
 
 
    @OneToMany(()=> PrestamoEntity)
-   @JoinColumn({name: "prestamos"})
    prestamos: PrestamoEntity;
 
 
-   @OneToOne(()=> CiudadEntity)
+   @OneToMany(()=> CiudadEntity, (ciudad) => ciudad.lector)
    @JoinColumn({name: "ciudadId"})
    ciudadId: CiudadEntity;
 
 
-   @OneToMany(() => FavoritosLectorEntity, {nullable: true})
-   @JoinColumn({name: "favoritosLector"})
-   favoritosLector: FavoritosLectorEntity;
+   @OneToMany(() => FavoritosLectorEntity, (favoritosLector) => favoritosLector.idLector)
+   favoritosLector: FavoritosLectorEntity[];
 
 
 
