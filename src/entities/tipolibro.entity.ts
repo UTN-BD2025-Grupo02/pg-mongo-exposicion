@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity({ name: 'tipo_libro' }) // nombre de la tabla en la base de datos
+@Entity({ name: 'tipo_libro' })
 export class TipoLibro {
   
   @PrimaryGeneratedColumn()
