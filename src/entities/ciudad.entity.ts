@@ -1,5 +1,5 @@
 //Crear la entidad ciudad 
-import { Entity, PrimaryGeneratedColumn, Column, IntegerType, OneToMany, JoinColumn, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import {LectorEntity} from './lector.entity';
 
 @Entity('ciudad')
@@ -13,6 +13,6 @@ export class CiudadEntity {
   @Column({ type: 'integer' })
   nroHabitante: number;
 
-  @ManyToOne(() => LectorEntity, (lector) => lector.ciudadId)
+  @OneToMany(() => LectorEntity, (lector) => lector.ciudadId)
   lector: LectorEntity[];
 }
