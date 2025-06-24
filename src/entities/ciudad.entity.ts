@@ -11,8 +11,9 @@ export class CiudadEntity {
 
   @Column({ type: 'integer' })
   nroHabitante: number;
+  
 
   @OneToMany(() => Lector)
   @JoinColumn({name: "lector"})
-  lector: Lector[];
+  lector: Lector;
 }
