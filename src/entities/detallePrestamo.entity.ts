@@ -1,17 +1,17 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { Libro } from './libro.entity';
-import { Prestamo } from './prestamo.entity';
+import { LibroEntity } from './libro.entity';
+import { PrestamoEntity } from './prestamo.entity';
 
 @Entity('DetallePrestamo')
-export class DetallePrestamo {
+export class DetallePrestamoEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Libro, { nullable: false })
+  @ManyToOne(() => LibroEntity, { nullable: false })
   @JoinColumn({ name: 'libro' })
-  libro: Libro;
+  libro: LibroEntity;
 
-  @ManyToOne(() => Prestamo, { nullable: false })
+  @ManyToOne(() => PrestamoEntity, { nullable: false })
   @JoinColumn({ name: 'prestamo' })
-  prestamo: Prestamo;
+  prestamo: PrestamoEntity;
 }

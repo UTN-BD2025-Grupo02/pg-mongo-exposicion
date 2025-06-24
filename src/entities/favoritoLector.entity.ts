@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Lector } from './Lector';
 import { TipoLibro } from './TipoLibro';
 
-@Entity()
+@Entity({ name: 'favorito_lector' })
 export class FavoritosLector {
 
   @PrimaryGeneratedColumn()
