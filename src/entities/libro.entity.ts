@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { EstadoLibroEntity } from './estadoLibro.entity';
-import { TipoLibroEntity } from './tipolibro.entity';
+import { TipoLibroEntity } from './tipoLibro.entity';
 
 @Entity('libro')
 export class LibroEntity {

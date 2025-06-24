@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { LectorEntity } from './lector.entity';
-import { TipoLibroEntity } from './tipolibro.entity';
+import { TipoLibroEntity } from './tipoLibro.entity';
+
 
 @Entity({ name: 'favoritoLector' })
 export class FavoritosLectorEntity {
