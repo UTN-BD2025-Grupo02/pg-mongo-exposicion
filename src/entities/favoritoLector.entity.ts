@@ -1,17 +1,17 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Lector } from './Lector';
-import { TipoLibroEntity } from './tipolibro.entity';
+import { TipoLibroEntity } from './tipoLibro.entity';
 
 @Entity({ name: 'favoritoLector' })
-export class FavoritosLector {
+export class FavoritosLectorEntity {
 
   @PrimaryGeneratedColumn()
   id: number;
 
   @ManyToOne(() => Lector, lector => lector.favoritos)
-  idLector: Lector;
+  lector: Lector;
 
   @ManyToOne(() => TipoLibroEntity, tipoLibro => tipoLibro.favoritos)
-  idTipoLibro: TipoLibroEntity;
+  tipoLibro: TipoLibroEntity;
 
 }

@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { LibroEntity } from './libro.entity';
+import { FavoritosLectorEntity } from './favoritoLector.entity';
 
 @Entity('tipoLibro')
 export class TipoLibroEntity {
@@ -17,6 +18,6 @@ export class TipoLibroEntity {
   libros: LibroEntity[];
 
   @OneToMany(() => FavoritosLectorEntity, fav => fav.tipoLibro)
-  favoritos: FavoritosLector[];
+  favoritos: FavoritosLectorEntity[];
   
 }
