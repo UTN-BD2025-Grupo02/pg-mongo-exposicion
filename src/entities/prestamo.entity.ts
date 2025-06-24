@@ -5,7 +5,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { Lector } from './lector.entity';
+import { LectorEntity } from './lector.entity';
 import { EstadoPrestamoEntity } from './estadoPrestamo.entity';
 import { DetallePrestamoEntity } from './detallePrestamo.entity';
 
@@ -27,9 +27,9 @@ export class PrestamoEntity {
   @JoinColumn({ name: 'detalle' })
   detalle: DetallePrestamoEntity;
 
-  @ManyToOne(() => Lector, { nullable: false })
+  @ManyToOne(() => LectorEntity, { nullable: false })
   @JoinColumn({ name: 'lector' })
-  lector: Lector;
+  lector: LectorEntity;
 
   @ManyToOne(() => EstadoPrestamoEntity, { nullable: false })
   @JoinColumn({ name: 'estado' })
