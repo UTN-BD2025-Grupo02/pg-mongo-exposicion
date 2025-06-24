@@ -17,8 +17,8 @@ export class LectorEntity {
    apellido: string;
 
 
-   @OneToMany(()=> PrestamoEntity)
-   prestamos: PrestamoEntity;
+   @OneToMany(()=> PrestamoEntity, (prestamo) => prestamo.lector)
+   prestamos: PrestamoEntity[];
 
 
    @OneToMany(()=> CiudadEntity, (ciudad) => ciudad.lector)
