@@ -1,8 +1,8 @@
 //Crear la entidad ciudad 
 import { Entity, PrimaryGeneratedColumn, Column, IntegerType, OneToMany, JoinColumn } from 'typeorm';
 
-@Entity()
-export class Ciudad {
+@Entity('ciudad')
+export class CiudadEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
