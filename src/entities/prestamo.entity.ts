@@ -3,7 +3,7 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
-  JoinColumn,
+  JoinColumn, OneToMany,
 } from 'typeorm';
 import { LectorEntity } from './lector.entity';
 import { EstadoPrestamoEntity } from './estadoPrestamo.entity';
@@ -23,15 +23,15 @@ export class PrestamoEntity {
   @Column({ type: 'date', nullable: true })
   fechaDevolucionReal: Date;
 
-  @ManyToOne(() => DetallePrestamoEntity, { nullable: true })
+  @OneToMany(() => DetallePrestamoEntity, (detallePrestamo) => detallePrestamo.prestamo, { cascade: true })
   @JoinColumn({ name: 'detalle' })
-  detalle: DetallePrestamoEntity;
+  detalles: DetallePrestamoEntity[];
 
   @ManyToOne(() => LectorEntity, (lector) => lector.prestamos, { nullable: false })
   @JoinColumn({ name: 'lector' })
   lector: LectorEntity;
 
-  @ManyToOne(() => EstadoPrestamoEntity, { nullable: false })
+  @ManyToOne(() => EstadoPrestamoEntity, (estadoPrestamo) => estadoPrestamo.prestamos, { nullable: false })
   @JoinColumn({ name: 'estado' })
   estado: EstadoPrestamoEntity;
 }

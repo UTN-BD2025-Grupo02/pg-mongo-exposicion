@@ -2,7 +2,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { PrestamoEntity } from './prestamo.entity';
 
 @Entity('estadoLibro')
-export class EstadoLibroEntity {
+export class EstadoPrestamoEntity {
 @PrimaryGeneratedColumn()
   id: number;
 
@@ -10,5 +10,5 @@ export class EstadoLibroEntity {
   valor: string;
 
 @OneToMany(() => PrestamoEntity, (prestamo) => prestamo.estado)
-  libros: PrestamoEntity[];
+  prestamos: PrestamoEntity[];
 }

@@ -11,7 +11,7 @@ export class DetallePrestamoEntity {
   @JoinColumn({ name: 'libro' })
   libro: LibroEntity;
 
-  @ManyToOne(() => PrestamoEntity, { nullable: false })
+  @ManyToOne(() => PrestamoEntity, (prestamo) => prestamo.detalles, { nullable: false })
   @JoinColumn({ name: 'prestamo' })
   prestamo: PrestamoEntity;
 }
