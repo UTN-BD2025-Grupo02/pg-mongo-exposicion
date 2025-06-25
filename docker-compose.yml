@@ -53,6 +53,11 @@ services:
     networks:
       - app-network
     restart: unless-stopped
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/dist
+      - /usr/src/app/node_modules
+     
 
 
 volumes:
