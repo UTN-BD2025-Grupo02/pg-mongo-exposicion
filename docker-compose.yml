@@ -24,6 +24,8 @@ services:
   mongodb:
     image: mongo:7
     container_name: mongo-nest
+    networks:
+      - app-network
     ports:
       - "27017:27017"
     environment:
@@ -52,15 +54,6 @@ services:
       - app-network
     restart: unless-stopped
 
-  # Adminer (opcional - interfaz web para PostgreSQL)
-  adminer:
-    image: adminer
-    container_name: adminer
-    ports:
-      - "8080:8080"
-    networks:
-      - app-network
-    restart: unless-stopped
 
 volumes:
   postgres_data:

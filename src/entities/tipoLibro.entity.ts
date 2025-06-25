@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { LibroEntity } from './libro.entity';
+import { LibroEntity } from './libro/libro.entity';
 import { FavoritosLectorEntity } from './favoritoLector.entity';
 
 @Entity('tipoLibro')
