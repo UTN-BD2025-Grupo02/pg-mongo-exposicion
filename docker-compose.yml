@@ -1,0 +1,16 @@
+
+
+services:
+  nextjs-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nextjs-app-container
+    ports:
+      - "3000:3000" # Mapea el puerto 3000 del host al puerto 3000 del contenedor
+    environment:
+      # Las variables de entorno deben definirse como pares clave-valor
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://localhost:8080/api # Ejemplo de URL de API
+      # Agrega más variables aquí si las necesitas
+    restart: always # Reinicia el contenedor automáticamente si falla
