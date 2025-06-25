@@ -1,16 +1,71 @@
 
-
 services:
-  nextjs-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: nextjs-app-container
-    ports:
-      - "3000:3000" # Mapea el puerto 3000 del host al puerto 3000 del contenedor
+  # Base de datos PostgreSQL (se levanta primero)
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres-db
     environment:
-      # Las variables de entorno deben definirse como pares clave-valor
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres123
+      - POSTGRES_DB=nestjs_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d nestjs_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mongodb:
+    image: mongo:7
+    container_name: mongo-nest
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: mi-biblioteca
+    volumes:
+      - mongo_data:/data/db
+
+  # Aplicación NestJS
+  app:
+    build: .
+    container_name: nestjs-app
+    ports:
+      - "3000:3000"
+    environment:
       - NODE_ENV=production
-      - NEXT_PUBLIC_API_URL=http://localhost:8080/api # Ejemplo de URL de API
-      # Agrega más variables aquí si las necesitas
-    restart: always # Reinicia el contenedor automáticamente si falla
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres123
+      - DB_DATABASE=nestjs_db
+      - DB_SSL=false
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Adminer (opcional - interfaz web para PostgreSQL)
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  mongo_data:
+
+networks:
+  app-network:
+    driver: bridge

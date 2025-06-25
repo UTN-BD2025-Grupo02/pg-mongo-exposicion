@@ -1,24 +1,51 @@
-# Usa una imagen base oficial de Node.js
-FROM node:20-alpine
+# ========== STAGE 1: Build ==========
+FROM node:20-alpine AS builder
 
-# Establece el directorio de trabajo dentro del contenedor
-WORKDIR /app
+# Establecer directorio de trabajo
+WORKDIR /usr/src/app
 
-# Copia los archivos de package.json y package-lock.json
+# Copiar archivos de dependencias
 COPY package*.json ./
 
-# Instala TODAS las dependencias (incluyendo devDependencies) para que el comando 'nest' esté disponible
+# Instalar TODAS las dependencias (incluyendo devDependencies para el build)
 RUN npm install
 
-# Copia el resto del código de tu aplicación al directorio de trabajo
+# Copiar el resto del código fuente
 COPY . .
 
-# Asegúrate de que tu package.json tenga "build": "npx nest build"
+# Compilar la aplicación
 RUN npm run build
 
-# Expone el puerto en el que la aplicación se ejecutará (Next.js por defecto 3000)
+# ========== STAGE 2: Production ==========
+FROM node:20-alpine AS production
+
+# Instalar dumb-init para manejar señales correctamente
+RUN apk add --no-cache dumb-init
+
+# Establecer directorio de trabajo
+WORKDIR /usr/src/app
+
+# Copiar archivos de dependencias
+COPY package*.json ./
+
+# Instalar solo dependencias de producción
+RUN npm install --omit=dev && npm cache clean --force
+
+# Copiar la aplicación compilada y node_modules desde el stage anterior
+COPY --from=builder /usr/src/app/dist ./dist
+COPY --from=builder /usr/src/app/node_modules ./node_modules
+
+# Crear usuario no-root para seguridad
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nestjs -u 1001 && \
+    chown -R nestjs:nodejs /usr/src/app
+
+# Cambiar a usuario no-root
+USER nestjs
+
+# Exponer el puerto
 EXPOSE 3000
 
-# Comando para iniciar la aplicación Next.js en producción (asumiendo que 'start' es para la app construida)
-# Si es una aplicación NestJS pura, podrías necesitar 'npm run start:prod' o similar
-CMD ["npm", "run", "start","dev"]
+# Comando para ejecutar la aplicación
+ENTRYPOINT ["dumb-init", "--"]
+CMD ["npm", "run", "start:prod"]
