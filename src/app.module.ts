@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { dynamicImport } from './utils/dynamic-import';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Ciudad, CiudadSchema } from './schemas';
+import { Ciudad, CiudadModel, CiudadSchema } from './schemas';
 
 
 
@@ -31,13 +31,13 @@ import { Ciudad, CiudadSchema } from './schemas';
       AdminModule.createAdminAsync({
         useFactory: async () => {
           const AdminJS = (await dynamicImport('adminjs')).default;
-          const AdminJSMongoose = await dynamicImport('@adminjs/mongoose');
-          AdminJS.registerAdapter({ AdminJSMongoose });
+          const { Database, Resource } = await dynamicImport('@adminjs/mongoose');
+          AdminJS.registerAdapter({ Database, Resource });
           return {
             adminJsOptions: {
               rootPath: '/admin',
               resources: [
-                { resource: Ciudad },
+                { resource: CiudadModel },
               ],
             },
           };
