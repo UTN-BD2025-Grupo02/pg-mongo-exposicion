@@ -1,8 +1,8 @@
 // src/libro/schemas/libro.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { EstadoLibro } from './estado-libro.schema';
-import { TipoLibro } from './tipo-libro.schema';
+import { EstadoLibro } from './estadoLibro.schema';
+import { TipoLibro } from './tipoLibro.schema';
 
 @Schema({ collection: 'libros' })
 export class Libro extends Document {

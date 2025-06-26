@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose'; // 👈 importar Mongoose
+import { MongooseModule } from '@nestjs/mongoose'; 
 
 @Module({
   imports: [
@@ -30,8 +30,8 @@ import { MongooseModule } from '@nestjs/mongoose'; // 👈 importar Mongoose
       }),
     }),
 
-    // Conexión a MongoDB (Mongoose)
-    MongooseModule.forRoot('mongodb://mongodb/mi-biblioteca'), // 👈 host = nombre del servicio en docker-compose
+    // Conexión a MongoDB (Mongoose)    
+    MongooseModule.forRoot('mongodb://mongodb/mi-biblioteca'), // Si modifican los permisos aqui deberia de ir el user y el password.
 
   ],
 
