@@ -1,8 +1,8 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { LibroEntity } from './libro.entity';
 
 @Entity('estadoLibro')
-export class EstadoLibroEntity {
+export class EstadoLibroEntity extends BaseEntity {
 @PrimaryGeneratedColumn()
   id: number;
 

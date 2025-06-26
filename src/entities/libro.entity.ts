@@ -1,9 +1,9 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { EstadoLibroEntity } from './estadoLibro.entity';
 import { TipoLibroEntity } from './tipoLibro.entity';
 
 @Entity('libro')
-export class LibroEntity {
+export class LibroEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

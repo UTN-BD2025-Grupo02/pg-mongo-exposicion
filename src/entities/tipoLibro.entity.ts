@@ -1,9 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity } from 'typeorm';
 import { LibroEntity } from './libro.entity';
 import { FavoritosLectorEntity } from './favoritoLector.entity';
 
 @Entity('tipoLibro')
-export class TipoLibroEntity {
+export class TipoLibroEntity extends BaseEntity {
   
   @PrimaryGeneratedColumn()
   id: number;

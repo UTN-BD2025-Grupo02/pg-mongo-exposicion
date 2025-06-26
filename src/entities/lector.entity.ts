@@ -1,10 +1,19 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { PrestamoEntity } from "./prestamo.entity";
 import { CiudadEntity } from "./ciudad.entity";
 import { FavoritosLectorEntity } from "./favoritoLector.entity";
 
 @Entity('lector')
-export class LectorEntity {
+export class LectorEntity extends BaseEntity {
    @PrimaryGeneratedColumn()
    id: number;
 

@@ -1,10 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, BaseEntity } from 'typeorm';
 import { LectorEntity } from './lector.entity';
 import { TipoLibroEntity } from './tipoLibro.entity';
 
 
 @Entity({ name: 'favoritoLector' })
-export class FavoritosLectorEntity {
+export class FavoritosLectorEntity extends BaseEntity {
 
   @PrimaryGeneratedColumn()
   id: number;

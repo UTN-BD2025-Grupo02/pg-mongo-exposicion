@@ -3,14 +3,14 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
-  JoinColumn, OneToMany,
+  JoinColumn, OneToMany, BaseEntity,
 } from 'typeorm';
 import { LectorEntity } from './lector.entity';
 import { EstadoPrestamoEntity } from './estadoPrestamo.entity';
 import { DetallePrestamoEntity } from './detallePrestamo.entity';
 
 @Entity('Prestamo')
-export class PrestamoEntity {
+export class PrestamoEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
