@@ -42,16 +42,6 @@ import { entities } from './entities';
               rootPath: '/admin',
               resources: [...entities],
             },
-            auth: {
-              authenticate: async (email, pass) => { /* lógica */ },
-              cookieName: 'adminjs',
-              cookiePassword: 'secreto',
-            },
-            sessionOptions: {
-              resave: false,
-              saveUninitialized: false,
-              secret: 'tu-secreto-muy-largo',
-            },
           };
         },
       }),
