@@ -3,6 +3,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { dynamicImport } from './utils/dynamic-import';
+import { entities } from './entities';
+
+
+
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -26,7 +31,31 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
           : false,
       }),
     }),
-
+    dynamicImport('@adminjs/nestjs').then(({ AdminModule }) =>
+      AdminModule.createAdminAsync({
+        useFactory: async () => {
+          const AdminJS = (await dynamicImport('adminjs')).default;
+          const { Database, Resource } = await dynamicImport('@adminjs/typeorm');
+          AdminJS.registerAdapter({ Database, Resource });
+          return {
+            adminJsOptions: {
+              rootPath: '/admin',
+              resources: [...entities],
+            },
+            auth: {
+              authenticate: async (email, pass) => { /* lógica */ },
+              cookieName: 'adminjs',
+              cookiePassword: 'secreto',
+            },
+            sessionOptions: {
+              resave: false,
+              saveUninitialized: false,
+              secret: 'tu-secreto-muy-largo',
+            },
+          };
+        },
+      }),
+    ) as any,
   ],
 
   controllers: [AppController],
