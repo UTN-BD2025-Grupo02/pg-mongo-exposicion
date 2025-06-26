@@ -1,46 +1,44 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { dynamicImport } from './utils/dynamic-import';
-import { entities } from './entities';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Ciudad, CiudadSchema } from './schemas';
 
 
 
 
 @Module({
-  imports: [ConfigModule.forRoot({
-    isGlobal: true,
-  }),
+  imports: [ConfigModule.forRoot({ isGlobal: true }),
 
-    TypeOrmModule.forRootAsync({
+    MongooseModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get('DB_HOST'),
-        port: +configService.get('DB_PORT'),
-        username: configService.get('DB_USERNAME'),
-        password: configService.get('DB_PASSWORD'),
-        database: configService.get('DB_DATABASE'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true,
-        ssl: configService.get('DB_SSL')
-          ? { rejectUnauthorized: false }
-          : false,
+      useFactory: (cfg: ConfigService) => ({
+        uri: `mongodb://${cfg.get('MONGO_INITDB_ROOT_USERNAME')}:${cfg.get('MONGO_INITDB_ROOT_PASSWORD')}@localhost:27017/${cfg.get('MONGO_DB_DATABASE')}`,
       }),
     }),
+
+    // Registro de esquemas/models
+    MongooseModule.forFeature([
+      { name: Ciudad.name, schema: CiudadSchema },
+    ]),
+
+
+
     dynamicImport('@adminjs/nestjs').then(({ AdminModule }) =>
       AdminModule.createAdminAsync({
         useFactory: async () => {
           const AdminJS = (await dynamicImport('adminjs')).default;
-          const { Database, Resource } = await dynamicImport('@adminjs/typeorm');
-          AdminJS.registerAdapter({ Database, Resource });
+          const AdminJSMongoose = await dynamicImport('@adminjs/mongoose');
+          AdminJS.registerAdapter({ AdminJSMongoose });
           return {
             adminJsOptions: {
               rootPath: '/admin',
-              resources: [...entities],
+              resources: [
+                { resource: Ciudad },
+              ],
             },
           };
         },
