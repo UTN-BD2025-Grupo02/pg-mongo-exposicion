@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 
 
 @Schema({collection: 'ciudades'})
@@ -12,3 +12,4 @@ export class Ciudad extends Document {
 }
 
 export const CiudadSchema = SchemaFactory.createForClass(Ciudad);
+export const CiudadModel = mongoose.model(Ciudad.name, CiudadSchema);
