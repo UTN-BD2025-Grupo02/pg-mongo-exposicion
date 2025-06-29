@@ -1,11 +1,23 @@
 import {seedCiudades} from './ciudad.seed';
 import { seedEstadosLibro } from './estadoLibro.seed';
 import { seedEstadosPrestamo } from './estadoPrestamo.seed';
+import { seedTiposLibro } from './tipoLibro.seed';
+import { seedLectores } from './lector.seed';
+import { seedLibros } from './libro.seed';
+import { seedPrestamos } from './prestamo.seed';
+import { seedDetallesPrestamo } from './detallePrestamo.seed';
+import { seedFavoritosLector } from './favoritosLector';
 
 const seedCommands = [
   seedCiudades,
   seedEstadosLibro,
-  seedEstadosPrestamo
+  seedEstadosPrestamo,
+  seedTiposLibro,
+  seedLectores,
+  seedLibros,
+  seedPrestamos,
+  seedDetallesPrestamo,
+  seedFavoritosLector
 ]
 
 async function runSeeds() {
