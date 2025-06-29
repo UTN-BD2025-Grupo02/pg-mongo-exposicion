@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity } from 't
 import { LibroEntity } from './libro.entity';
 import { FavoritosLectorEntity } from './favoritoLector.entity';
 
-@Entity('tipoLibro')
+@Entity('tipo_libro')
 export class TipoLibroEntity extends BaseEntity {
   
   @PrimaryGeneratedColumn()

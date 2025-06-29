@@ -1,7 +1,7 @@
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { PrestamoEntity } from './prestamo.entity';
 
-@Entity('estadoPrestamo')
+@Entity('estado_prestamo')
 export class EstadoPrestamoEntity extends BaseEntity {
 @PrimaryGeneratedColumn()
   id: number;

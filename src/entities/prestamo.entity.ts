@@ -9,7 +9,7 @@ import { LectorEntity } from './lector.entity';
 import { EstadoPrestamoEntity } from './estadoPrestamo.entity';
 import { DetallePrestamoEntity } from './detallePrestamo.entity';
 
-@Entity('Prestamo')
+@Entity('prestamo')
 export class PrestamoEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -21,7 +21,7 @@ export class PrestamoEntity extends BaseEntity {
   fechaDevolucion: Date;
 
   @Column({ type: 'date', nullable: true })
-  fechaDevolucionReal: Date;
+  fechaDevolucionReal: Date|null;
 
   @OneToMany(() => DetallePrestamoEntity, (detallePrestamo) => detallePrestamo.prestamo, { cascade: true })
   @JoinColumn({ name: 'detalle' })

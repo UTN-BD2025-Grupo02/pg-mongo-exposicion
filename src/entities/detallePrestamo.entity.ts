@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, BaseEnti
 import { LibroEntity } from './libro.entity';
 import { PrestamoEntity } from './prestamo.entity';
 
-@Entity('DetallePrestamo')
+@Entity('detalle_prestamo')
 export class DetallePrestamoEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;

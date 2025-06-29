@@ -3,7 +3,7 @@ import { LectorEntity } from './lector.entity';
 import { TipoLibroEntity } from './tipoLibro.entity';
 
 
-@Entity({ name: 'favoritoLector' })
+@Entity({ name: 'favorito_lector' })
 export class FavoritosLectorEntity extends BaseEntity {
 
   @PrimaryGeneratedColumn()
