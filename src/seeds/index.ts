@@ -1,13 +1,11 @@
-import { exec } from "child_process"
-import { promisify } from "util"
 import {seedCiudades} from './ciudad.seed';
 import { seedEstadosLibro } from './estadoLibro.seed';
-
-const execAsync = promisify(exec)
+import { seedEstadosPrestamo } from './estadoPrestamo.seed';
 
 const seedCommands = [
   seedCiudades,
-  seedEstadosLibro
+  seedEstadosLibro,
+  seedEstadosPrestamo
 ]
 
 async function runSeeds() {
