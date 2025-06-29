@@ -17,4 +17,5 @@ export const entities = [
   LectorEntity,
   LibroEntity,
   PrestamoEntity,
-  TipoLibroEntity];
+  TipoLibroEntity
+];
