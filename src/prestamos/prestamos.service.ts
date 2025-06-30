@@ -7,13 +7,13 @@ import { LectorEntity } from '../entities/lector.entity';
 
 @Injectable()
 export class PrestamosService {
-  private prestamoRepository: Repository<PrestamoEntity>;
+  private prestamoRepository: MongoRepository<PrestamoEntity>;
   private estadoRepository: MongoRepository<EstadoPrestamoEntity>;
   private lectorRepository: MongoRepository<LectorEntity>;
 
   constructor(
     @InjectRepository(PrestamoEntity)
-    prestamoRepository: Repository<PrestamoEntity>,
+    prestamoRepository: MongoRepository<PrestamoEntity>,
 
     @InjectRepository(EstadoPrestamoEntity)
     estadoRepository: MongoRepository<EstadoPrestamoEntity>,

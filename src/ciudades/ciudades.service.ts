@@ -1,16 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { MongoRepository } from 'typeorm';
 import { CiudadEntity } from '../entities/ciudad.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCiudadDto } from '../interfaces/createCiudad.dto';
 
 @Injectable()
 export class CiudadesService {
-  private ciudadRepository: Repository<CiudadEntity>;
+  private ciudadRepository: MongoRepository<CiudadEntity>;
 
   constructor(
     @InjectRepository(CiudadEntity)
-    ciudadRepository: Repository<CiudadEntity>,
+    ciudadRepository: MongoRepository<CiudadEntity>,
   ) {
     this.ciudadRepository = ciudadRepository;
   }

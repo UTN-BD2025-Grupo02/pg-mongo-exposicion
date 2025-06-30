@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { CiudadesService } from './ciudades.service';
 import { CreateCiudadDto } from '../interfaces/createCiudad.dto';
 import { CiudadEntity } from '../entities/ciudad.entity';
@@ -18,7 +18,7 @@ export class CiudadesController {
   }
 
   @Get(':nombre')
-  findByName(nombre: string): Promise<CiudadEntity> {
+  findByName(@Param('nombre') nombre: string): Promise<CiudadEntity> {
     return this.ciudadesService.findByName(nombre);
   }
 
