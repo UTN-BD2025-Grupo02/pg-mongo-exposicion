@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { MongoRepository, Repository } from 'typeorm';
+import { MongoRepository } from 'typeorm';
 import { PrestamoEntity } from '../entities/prestamo.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EstadoPrestamoEntity } from '../entities/estadoPrestamo.entity';
