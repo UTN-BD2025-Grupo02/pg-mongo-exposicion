@@ -27,7 +27,7 @@ import { entities } from './entities';
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true,
         useUnifiedTopology: true,
-        ssl: configService.get('DB_SSL')
+        ssl: configService.get('MONGO_SSL')
       }),
     }),
     dynamicImport('@adminjs/nestjs').then(({ AdminModule }) =>

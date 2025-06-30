@@ -1,7 +1,7 @@
 import { LibroEntity } from "../entities/libro.entity"
 import { EstadoLibroEntity } from "../entities/estadoLibro.entity"
 import { TipoLibroEntity } from "../entities/tipoLibro.entity"
-import { dataSource } from "./config/dataSoruce"
+import { dataSource } from "./config/dataSource"
 
 export async function seedLibros() {
   try {

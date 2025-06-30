@@ -11,5 +11,6 @@ export const dataSource = new DataSource({
   database: MONGO.MONGO_DATABASE,
   entities: [...entities],
   synchronize: false,
+  retryWrites:false,
   ssl: MONGO.MONGO_SSL
 })

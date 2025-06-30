@@ -1,7 +1,7 @@
 import { PrestamoEntity } from "../entities/prestamo.entity"
 import { LectorEntity } from "../entities/lector.entity"
 import { EstadoPrestamoEntity } from "../entities/estadoPrestamo.entity"
-import { dataSource } from "./config/dataSoruce"
+import { dataSource } from "./config/dataSource"
 
 export async function seedPrestamos() {
   try {
