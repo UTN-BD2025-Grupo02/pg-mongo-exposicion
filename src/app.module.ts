@@ -7,6 +7,8 @@ import { dynamicImport } from './utils/dynamic-import';
 import { entities } from './entities';
 import { CiudadesController } from './ciudades/ciudades.controller';
 import { CiudadesService } from './ciudades/ciudades.service';
+import { PrestamosController } from './prestamos/prestamos.controller';
+import { PrestamosService } from './prestamos/prestamos.service';
 
 
 
@@ -52,7 +54,7 @@ import { CiudadesService } from './ciudades/ciudades.service';
     TypeOrmModule.forFeature(entities),
   ],
 
-  controllers: [AppController, CiudadesController],
-  providers: [AppService, CiudadesService],
+  controllers: [AppController, CiudadesController, PrestamosController],
+  providers: [AppService, CiudadesService, PrestamosService],
 })
 export class AppModule {}
