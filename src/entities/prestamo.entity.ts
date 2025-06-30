@@ -1,37 +1,23 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  JoinColumn, OneToMany, BaseEntity,
-} from 'typeorm';
-import { LectorEntity } from './lector.entity';
-import { EstadoPrestamoEntity } from './estadoPrestamo.entity';
-import { DetallePrestamoEntity } from './detallePrestamo.entity';
+import { Entity, Column, BaseEntity, ObjectIdColumn } from 'typeorm';
+import { ObjectId } from 'mongodb';
 
 @Entity('prestamo')
 export class PrestamoEntity extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @ObjectIdColumn()
+  _id: ObjectId;
 
-  @Column({ type: 'date' })
+  @Column()
   fechaPrestamo: Date;
 
-  @Column({ type: 'date' })
+  @Column()
   fechaDevolucion: Date;
 
-  @Column({ type: 'date', nullable: true })
+  @Column({ nullable: true })
   fechaDevolucionReal: Date|null;
 
-  @OneToMany(() => DetallePrestamoEntity, (detallePrestamo) => detallePrestamo.prestamo, { cascade: true })
-  @JoinColumn({ name: 'detalle' })
-  detalles: DetallePrestamoEntity[];
+  @Column()
+  lector: ObjectId;
 
-  @ManyToOne(() => LectorEntity, (lector) => lector.prestamos, { nullable: false })
-  @JoinColumn({ name: 'lector' })
-  lector: LectorEntity;
-
-  @ManyToOne(() => EstadoPrestamoEntity, (estadoPrestamo) => estadoPrestamo.prestamos, { nullable: false })
-  @JoinColumn({ name: 'estado' })
-  estado: EstadoPrestamoEntity;
+  @Column()
+  estado: ObjectId;
 }

@@ -1,28 +1,25 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { EstadoLibroEntity } from './estadoLibro.entity';
-import { TipoLibroEntity } from './tipoLibro.entity';
+import { BaseEntity, Column, Entity, ObjectIdColumn } from 'typeorm';
+import { ObjectId } from 'mongodb';
 
 @Entity('libro')
 export class LibroEntity extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @ObjectIdColumn()
+  _id: ObjectId;
 
-  @Column({ type: 'varchar', length: 150 })
+  @Column()
   titulo: string;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column()
   autor: string;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column()
   editorial: string;
 
-  @ManyToOne(() => EstadoLibroEntity, (estadoLibro) => estadoLibro.libros)
-  @JoinColumn({name: 'estado'})
-  estado: EstadoLibroEntity;
+  @Column()
+  estado: ObjectId;
 
-  @ManyToOne(() => TipoLibroEntity, (tipoLibro) => tipoLibro.libros)
-  @JoinColumn({name: 'tipoLibro'})
-  tipoLibro: TipoLibroEntity;
+  @Column()
+  tipoLibro: ObjectId;
 
 
 }

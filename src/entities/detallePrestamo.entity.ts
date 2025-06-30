@@ -1,17 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, BaseEntity } from 'typeorm';
-import { LibroEntity } from './libro.entity';
-import { PrestamoEntity } from './prestamo.entity';
+import { Entity, Column, BaseEntity, ObjectIdColumn } from 'typeorm';
+import { ObjectId } from 'mongodb';
+
 
 @Entity('detalle_prestamo')
 export class DetallePrestamoEntity extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @ObjectIdColumn()
+  _id: number;
 
-  @ManyToOne(() => LibroEntity, { nullable: false })
-  @JoinColumn({ name: 'libro' })
-  libro: LibroEntity;
+  @Column()
+  libro: ObjectId;
 
-  @ManyToOne(() => PrestamoEntity, (prestamo) => prestamo.detalles, { nullable: false })
-  @JoinColumn({ name: 'prestamo' })
-  prestamo: PrestamoEntity;
+  @Column()
+  prestamo: ObjectId;
 }

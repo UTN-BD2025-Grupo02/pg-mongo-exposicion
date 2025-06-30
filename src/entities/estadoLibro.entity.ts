@@ -1,14 +1,11 @@
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { LibroEntity } from './libro.entity';
+import { BaseEntity, Column, Entity, ObjectIdColumn } from 'typeorm';
+import { ObjectId } from 'mongodb';
 
 @Entity('estado_libro')
 export class EstadoLibroEntity extends BaseEntity {
-@PrimaryGeneratedColumn()
-  id: number;
+@ObjectIdColumn()
+  _id: ObjectId;
 
-@Column({ type: 'varchar', length: 50 })
+@Column()
   valor: string;
-
-@OneToMany(() => LibroEntity, (libro) => libro.estado)
-  libros: LibroEntity[];
 }

@@ -1,14 +1,12 @@
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { PrestamoEntity } from './prestamo.entity';
+import { BaseEntity, Column, Entity, ObjectIdColumn } from 'typeorm';
+import { ObjectId } from 'mongodb';
 
 @Entity('estado_prestamo')
 export class EstadoPrestamoEntity extends BaseEntity {
-@PrimaryGeneratedColumn()
-  id: number;
+@ObjectIdColumn()
+  _id: ObjectId;
 
-@Column({ type: 'varchar', length: 50 })
+@Column()
   valor: string;
 
-@OneToMany(() => PrestamoEntity, (prestamo) => prestamo.estado)
-  prestamos: PrestamoEntity[];
 }

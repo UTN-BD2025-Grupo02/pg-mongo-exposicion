@@ -1,23 +1,16 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity } from 'typeorm';
-import { LibroEntity } from './libro.entity';
-import { FavoritosLectorEntity } from './favoritoLector.entity';
+import { Entity, Column, BaseEntity, ObjectIdColumn } from 'typeorm';
+import { ObjectId } from 'mongodb';
 
 @Entity('tipo_libro')
 export class TipoLibroEntity extends BaseEntity {
   
-  @PrimaryGeneratedColumn()
-  id: number;
+  @ObjectIdColumn()
+  _id: ObjectId;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column()
   nombre: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: true })
+  @Column()
   descripcion: string;
 
-  @OneToMany(() => LibroEntity, libro => libro.tipoLibro)
-  libros: LibroEntity[];
-
-  @OneToMany(() => FavoritosLectorEntity, fav => fav.idTipoLibro)
-  favoritos: FavoritosLectorEntity[];
-  
 }

@@ -1,18 +1,16 @@
 //Crear la entidad ciudad 
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity } from 'typeorm';
-import {LectorEntity} from './lector.entity';
+import { Entity, BaseEntity, ObjectIdColumn, Column } from 'typeorm';
+import { ObjectId } from 'mongodb';
+
 
 @Entity('ciudad')
 export class CiudadEntity extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @ObjectIdColumn()
+  _id: ObjectId;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column()
   nombre: string;
 
-  @Column({ type: 'integer' })
+  @Column()
   nroHabitante: number;
-
-  @OneToMany(() => LectorEntity, (lector) => lector.ciudadId)
-  lector: LectorEntity[];
 }

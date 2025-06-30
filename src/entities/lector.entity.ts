@@ -1,44 +1,19 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { PrestamoEntity } from "./prestamo.entity";
-import { CiudadEntity } from "./ciudad.entity";
-import { FavoritosLectorEntity } from "./favoritoLector.entity";
+import { BaseEntity, Column, Entity, ObjectIdColumn } from 'typeorm';
+import { ObjectId } from 'mongodb';
 
 @Entity('lector')
 export class LectorEntity extends BaseEntity {
-   @PrimaryGeneratedColumn()
-   id: number;
+  @ObjectIdColumn()
+  _id: ObjectId;
 
 
-   @Column({type: 'varchar', length: 50 })
-   nombre: string;
+  @Column()
+  nombre: string;
 
 
-   @Column({type: 'varchar', length: 50 })
-   apellido: string;
+  @Column()
+  apellido: string;
 
-
-   @OneToMany(()=> PrestamoEntity, (prestamo) => prestamo.lector)
-   prestamos: PrestamoEntity[];
-
-
-   @OneToMany(()=> CiudadEntity, (ciudad) => ciudad.lector)
-   @JoinColumn({name: "ciudadId"})
-   ciudadId: CiudadEntity;
-
-
-   @OneToMany(() => FavoritosLectorEntity, (favoritosLector) => favoritosLector.idLector)
-   favoritosLector: FavoritosLectorEntity[];
-
-
-
-
+  @Column()
+  ciudadId: ObjectId;
 }

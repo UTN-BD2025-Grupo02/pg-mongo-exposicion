@@ -1,20 +1,18 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, BaseEntity } from 'typeorm';
-import { LectorEntity } from './lector.entity';
-import { TipoLibroEntity } from './tipoLibro.entity';
+import { Entity, Column, BaseEntity, ObjectIdColumn } from 'typeorm';
+import { ObjectId } from 'mongodb';
+
 
 
 @Entity({ name: 'favorito_lector' })
 export class FavoritosLectorEntity extends BaseEntity {
 
-  @PrimaryGeneratedColumn()
-  id: number;
+  @ObjectIdColumn()
+  _id: ObjectId;
 
-  @ManyToOne(() => LectorEntity, lector => lector.favoritosLector)
-  @JoinColumn({ name: 'idLector' })
-  idLector: LectorEntity;
+  @Column()
+  idLector: ObjectId;
 
-  @ManyToOne(() => TipoLibroEntity, tipoLibro => tipoLibro.favoritos)
-  @JoinColumn({ name: 'idTipoLibro' })
-  idTipoLibro: TipoLibroEntity;
+  @Column()
+  idTipoLibro: ObjectId;
 
 }
