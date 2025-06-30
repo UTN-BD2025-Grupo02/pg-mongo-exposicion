@@ -1,12 +1,10 @@
 import { CiudadEntity } from "../entities/ciudad.entity"
-import { dataSource } from './config/dataSoruce';
-
-
+import { dataSource } from "./config/dataSoruce"
 
 export async function seedCiudades() {
   try {
     await dataSource.initialize()
-    console.log("Conexión establecida con la base de datos")
+    console.log("Conexión establecida con la base de datos MongoDB")
 
     const ciudadRepository = dataSource.getRepository(CiudadEntity)
 

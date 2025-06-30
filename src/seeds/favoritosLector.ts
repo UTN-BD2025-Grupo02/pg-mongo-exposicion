@@ -1,13 +1,12 @@
 import { FavoritosLectorEntity } from "../entities/favoritoLector.entity"
 import { LectorEntity } from "../entities/lector.entity"
 import { TipoLibroEntity } from "../entities/tipoLibro.entity"
-import { dataSource } from './config/dataSoruce';
-
+import { dataSource } from "./config/dataSoruce"
 
 export async function seedFavoritosLector() {
   try {
     await dataSource.initialize()
-    console.log("Conexión establecida con la base de datos")
+    console.log("Conexión establecida con la base de datos MongoDB")
 
     const favoritosRepository = dataSource.getRepository(FavoritosLectorEntity)
     const lectorRepository = dataSource.getRepository(LectorEntity)
@@ -39,20 +38,20 @@ export async function seedFavoritosLector() {
 
     const favoritos = [
       // Juan prefiere ficción e historia
-      { idLector: juan, idTipoLibro: ficcion },
-      { idLector: juan, idTipoLibro: historia },
+      { idLector: juan._id, idTipoLibro: ficcion._id },
+      { idLector: juan._id, idTipoLibro: historia._id },
 
       // María prefiere ficción y arte
-      { idLector: maria, idTipoLibro: ficcion },
-      { idLector: maria, idTipoLibro: arte },
+      { idLector: maria._id, idTipoLibro: ficcion._id },
+      { idLector: maria._id, idTipoLibro: arte._id },
 
       // Carlos prefiere historia y ciencia
-      { idLector: carlos, idTipoLibro: historia },
-      { idLector: carlos, idTipoLibro: ciencia },
+      { idLector: carlos._id, idTipoLibro: historia._id },
+      { idLector: carlos._id, idTipoLibro: ciencia._id },
 
       // Ana prefiere infantil y ficción
-      { idLector: ana, idTipoLibro: infantil },
-      { idLector: ana, idTipoLibro: ficcion },
+      { idLector: ana._id, idTipoLibro: infantil._id },
+      { idLector: ana._id, idTipoLibro: ficcion._id },
     ]
 
     for (const favoritoData of favoritos) {

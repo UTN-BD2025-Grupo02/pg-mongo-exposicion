@@ -1,11 +1,11 @@
 import { LectorEntity } from "../entities/lector.entity"
 import { CiudadEntity } from "../entities/ciudad.entity"
-import { dataSource } from './config/dataSoruce';
+import { dataSource } from "./config/dataSoruce"
 
 export async function seedLectores() {
   try {
     await dataSource.initialize()
-    console.log("Conexión establecida con la base de datos")
+    console.log("Conexión establecida con la base de datos MongoDB")
 
     const lectorRepository = dataSource.getRepository(LectorEntity)
     const ciudadRepository = dataSource.getRepository(CiudadEntity)
@@ -30,14 +30,14 @@ export async function seedLectores() {
     }
 
     const lectores = [
-      { nombre: "Juan", apellido: "Pérez", ciudadId: buenosAires },
-      { nombre: "María", apellido: "González", ciudadId: cordoba },
-      { nombre: "Carlos", apellido: "López", ciudadId: rosario },
-      { nombre: "Ana", apellido: "Martínez", ciudadId: mendoza },
-      { nombre: "Luis", apellido: "García", ciudadId: laPlata },
-      { nombre: "Laura", apellido: "Rodríguez", ciudadId: buenosAires },
-      { nombre: "Diego", apellido: "Fernández", ciudadId: cordoba },
-      { nombre: "Sofía", apellido: "Sánchez", ciudadId: rosario },
+      { nombre: "Juan", apellido: "Pérez", ciudadId: buenosAires._id },
+      { nombre: "María", apellido: "González", ciudadId: cordoba._id },
+      { nombre: "Carlos", apellido: "López", ciudadId: rosario._id },
+      { nombre: "Ana", apellido: "Martínez", ciudadId: mendoza._id },
+      { nombre: "Luis", apellido: "García", ciudadId: laPlata._id },
+      { nombre: "Laura", apellido: "Rodríguez", ciudadId: buenosAires._id },
+      { nombre: "Diego", apellido: "Fernández", ciudadId: cordoba._id },
+      { nombre: "Sofía", apellido: "Sánchez", ciudadId: rosario._id },
     ]
 
     for (const lectorData of lectores) {

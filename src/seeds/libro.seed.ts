@@ -1,12 +1,12 @@
 import { LibroEntity } from "../entities/libro.entity"
 import { EstadoLibroEntity } from "../entities/estadoLibro.entity"
 import { TipoLibroEntity } from "../entities/tipoLibro.entity"
-import { dataSource } from './config/dataSoruce';
+import { dataSource } from "./config/dataSoruce"
 
 export async function seedLibros() {
   try {
     await dataSource.initialize()
-    console.log("Conexión establecida con la base de datos")
+    console.log("Conexión establecida con la base de datos MongoDB")
 
     const libroRepository = dataSource.getRepository(LibroEntity)
     const estadoLibroRepository = dataSource.getRepository(EstadoLibroEntity)
@@ -39,42 +39,72 @@ export async function seedLibros() {
         titulo: "Cien años de soledad",
         autor: "Gabriel García Márquez",
         editorial: "Sudamericana",
-        estado: disponible,
-        tipoLibro: ficcion,
+        estado: disponible._id,
+        tipoLibro: ficcion._id,
       },
       {
         titulo: "Don Quijote de la Mancha",
         autor: "Miguel de Cervantes",
         editorial: "Planeta",
-        estado: prestado,
-        tipoLibro: ficcion,
+        estado: prestado._id,
+        tipoLibro: ficcion._id,
       },
-      { titulo: "El Aleph", autor: "Jorge Luis Borges", editorial: "Emecé", estado: disponible, tipoLibro: ficcion },
+      {
+        titulo: "El Aleph",
+        autor: "Jorge Luis Borges",
+        editorial: "Emecé",
+        estado: disponible._id,
+        tipoLibro: ficcion._id,
+      },
       {
         titulo: "Historia Argentina",
         autor: "Felipe Pigna",
         editorial: "Planeta",
-        estado: disponible,
-        tipoLibro: historia,
+        estado: disponible._id,
+        tipoLibro: historia._id,
       },
-      { titulo: "San Martín", autor: "Hugo Chumbita", editorial: "Emecé", estado: prestado, tipoLibro: historia },
+      {
+        titulo: "San Martín",
+        autor: "Hugo Chumbita",
+        editorial: "Emecé",
+        estado: prestado._id,
+        tipoLibro: historia._id,
+      },
       {
         titulo: "Física Cuántica",
         autor: "Stephen Hawking",
         editorial: "Crítica",
-        estado: disponible,
-        tipoLibro: ciencia,
+        estado: disponible._id,
+        tipoLibro: ciencia._id,
       },
-      { titulo: "El Universo", autor: "Carl Sagan", editorial: "Planeta", estado: disponible, tipoLibro: ciencia },
-      { titulo: "Historia del Arte", autor: "Ernst Gombrich", editorial: "Phaidon", estado: prestado, tipoLibro: arte },
+      {
+        titulo: "El Universo",
+        autor: "Carl Sagan",
+        editorial: "Planeta",
+        estado: disponible._id,
+        tipoLibro: ciencia._id,
+      },
+      {
+        titulo: "Historia del Arte",
+        autor: "Ernst Gombrich",
+        editorial: "Phaidon",
+        estado: prestado._id,
+        tipoLibro: arte._id,
+      },
       {
         titulo: "El Principito",
         autor: "Antoine de Saint-Exupéry",
         editorial: "Salamandra",
-        estado: disponible,
-        tipoLibro: infantil,
+        estado: disponible._id,
+        tipoLibro: infantil._id,
       },
-      { titulo: "Matilda", autor: "Roald Dahl", editorial: "Alfaguara", estado: disponible, tipoLibro: infantil },
+      {
+        titulo: "Matilda",
+        autor: "Roald Dahl",
+        editorial: "Alfaguara",
+        estado: disponible._id,
+        tipoLibro: infantil._id,
+      },
     ]
 
     for (const libroData of libros) {

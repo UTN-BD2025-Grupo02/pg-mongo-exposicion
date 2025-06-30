@@ -1,12 +1,12 @@
 import { PrestamoEntity } from "../entities/prestamo.entity"
 import { LectorEntity } from "../entities/lector.entity"
 import { EstadoPrestamoEntity } from "../entities/estadoPrestamo.entity"
-import { dataSource } from './config/dataSoruce';
+import { dataSource } from "./config/dataSoruce"
 
 export async function seedPrestamos() {
   try {
     await dataSource.initialize()
-    console.log("Conexión establecida con la base de datos")
+    console.log("Conexión establecida con la base de datos MongoDB")
 
     const prestamoRepository = dataSource.getRepository(PrestamoEntity)
     const lectorRepository = dataSource.getRepository(LectorEntity)
@@ -39,36 +39,36 @@ export async function seedPrestamos() {
         fechaPrestamo: new Date("2024-01-15"),
         fechaDevolucion: new Date("2024-01-29"),
         fechaDevolucionReal: new Date("2024-01-28"),
-        lector: juan,
-        estado: devuelto,
+        lector: juan._id,
+        estado: devuelto._id,
       },
       {
         fechaPrestamo: new Date("2024-02-01"),
         fechaDevolucion: new Date("2024-02-15"),
         fechaDevolucionReal: null,
-        lector: maria,
-        estado: activo,
+        lector: maria._id,
+        estado: activo._id,
       },
       {
         fechaPrestamo: new Date("2024-01-20"),
         fechaDevolucion: new Date("2024-02-03"),
         fechaDevolucionReal: null,
-        lector: carlos,
-        estado: vencido,
+        lector: carlos._id,
+        estado: vencido._id,
       },
       {
         fechaPrestamo: new Date("2024-02-10"),
         fechaDevolucion: new Date("2024-02-24"),
         fechaDevolucionReal: new Date("2024-02-22"),
-        lector: ana,
-        estado: devuelto,
+        lector: ana._id,
+        estado: devuelto._id,
       },
       {
         fechaPrestamo: new Date("2024-02-15"),
         fechaDevolucion: new Date("2024-03-01"),
         fechaDevolucionReal: null,
-        lector: juan,
-        estado: activo,
+        lector: juan._id,
+        estado: activo._id,
       },
     ]
 

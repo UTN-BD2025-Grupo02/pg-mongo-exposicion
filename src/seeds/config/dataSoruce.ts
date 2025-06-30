@@ -1,15 +1,15 @@
 import { DataSource } from 'typeorm';
-import { DB_ACCESS } from './env';
+import { MONGO } from './env';
 import { entities } from '../../entities';
 
 export const dataSource = new DataSource({
-  type: "postgres",
-  host: DB_ACCESS.DB_HOST,
-  port: DB_ACCESS.DB_PORT,
-  username: DB_ACCESS.DB_USERNAME,
-  password: DB_ACCESS.DB_PASSWORD,
-  database: DB_ACCESS.DB_DATABASE,
+  type: "mongodb",
+  host: MONGO.MONGO_HOST,
+  port: MONGO.MONGO_PORT,
+  username: MONGO.MONGO_USERNAME,
+  password: MONGO.MONGO_PASSWORD,
+  database: MONGO.MONGO_DATABASE,
   entities: [...entities],
   synchronize: false,
-  ssl: DB_ACCESS.DB_SSL
+  ssl: MONGO.MONGO_SSL
 })
