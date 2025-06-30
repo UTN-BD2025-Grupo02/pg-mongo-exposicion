@@ -3,7 +3,6 @@ import { Repository } from 'typeorm';
 import { CiudadEntity } from '../entities/ciudad.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCiudadDto } from '../interfaces/createCiudad.dto';
-import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class CiudadesService {
