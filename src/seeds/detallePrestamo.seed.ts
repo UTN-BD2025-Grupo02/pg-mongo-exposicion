@@ -1,6 +1,7 @@
 import { DetallePrestamoEntity } from "../entities/detallePrestamo.entity"
 import { PrestamoEntity } from "../entities/prestamo.entity"
 import { LibroEntity } from "../entities/libro.entity"
+import { LectorEntity } from "../entities/lector.entity"
 import { dataSource } from './config/dataSoruce';
 
 export async function seedDetallesPrestamo() {
@@ -11,6 +12,7 @@ export async function seedDetallesPrestamo() {
     const detallePrestamoRepository = dataSource.getRepository(DetallePrestamoEntity)
     const prestamoRepository = dataSource.getRepository(PrestamoEntity)
     const libroRepository = dataSource.getRepository(LibroEntity)
+    const lectorRepository = dataSource.getRepository(LectorEntity)
 
     // Verificar si ya existen datos
     const existingDetalles = await detallePrestamoRepository.count()
@@ -19,42 +21,68 @@ export async function seedDetallesPrestamo() {
       return
     }
 
-    // Obtener préstamos y libros existentes
-    const prestamos = await prestamoRepository.find()
-    const libros = await libroRepository.find()
+    // Obtener préstamos y libros específicos
+    const juan = await lectorRepository.findOne({ where: { nombre: "Juan", apellido: "Pérez" } })
+    const maria = await lectorRepository.findOne({ where: { nombre: "María", apellido: "González" } })
+    const carlos = await lectorRepository.findOne({ where: { nombre: "Carlos", apellido: "López" } })
+    const ana = await lectorRepository.findOne({ where: { nombre: "Ana", apellido: "Martínez" } })
 
-    if (prestamos.length === 0 || libros.length === 0) {
-      console.log("❌ No hay préstamos o libros disponibles. Ejecuta primero esos seeds.")
+    const prestamoJuan1 = await prestamoRepository.findOne({
+      where: { lector: { id: juan?.id }, fechaPrestamo: new Date("2024-01-15") },
+    })
+    const prestamoMaria = await prestamoRepository.findOne({ where: { lector: { id: maria?.id } } })
+    const prestamoCarlos = await prestamoRepository.findOne({ where: { lector: { id: carlos?.id } } })
+    const prestamoAna = await prestamoRepository.findOne({ where: { lector: { id: ana?.id } } })
+    const prestamoJuan2 = await prestamoRepository.findOne({
+      where: { lector: { id: juan?.id }, fechaPrestamo: new Date("2024-02-15") },
+    })
+
+    const cienAnos = await libroRepository.findOne({ where: { titulo: "Cien años de soledad" } })
+    const donQuijote = await libroRepository.findOne({ where: { titulo: "Don Quijote de la Mancha" } })
+    const elAleph = await libroRepository.findOne({ where: { titulo: "El Aleph" } })
+    const historiaArg = await libroRepository.findOne({ where: { titulo: "Historia Argentina" } })
+    const sanMartin = await libroRepository.findOne({ where: { titulo: "San Martín" } })
+    const principito = await libroRepository.findOne({ where: { titulo: "El Principito" } })
+
+    if (
+      !prestamoJuan1 ||
+      !prestamoMaria ||
+      !prestamoCarlos ||
+      !prestamoAna ||
+      !prestamoJuan2 ||
+      !cienAnos ||
+      !donQuijote ||
+      !elAleph ||
+      !historiaArg ||
+      !sanMartin ||
+      !principito
+    ) {
+      console.log("❌ No se encontraron todos los préstamos o libros necesarios.")
       return
     }
 
-    // Crear detalles para cada préstamo
-    for (const prestamo of prestamos) {
-      // Cada préstamo puede tener entre 1 y 3 libros
-      const numLibros = Math.floor(Math.random() * 3) + 1
-      const librosSeleccionados = new Set<number>()
+    const detalles = [
+      // Préstamo 1 de Juan - 2 libros
+      { prestamo: prestamoJuan1, libro: cienAnos },
+      { prestamo: prestamoJuan1, libro: elAleph },
 
-      for (let i = 0; i < numLibros; i++) {
-        let libroAleatorio
-        let intentos = 0
+      // Préstamo de María - 1 libro
+      { prestamo: prestamoMaria, libro: donQuijote },
 
-        // Evitar duplicados en el mismo préstamo
-        do {
-          libroAleatorio = libros[Math.floor(Math.random() * libros.length)]
-          intentos++
-        } while (librosSeleccionados.has(libroAleatorio.id) && intentos < 10)
+      // Préstamo de Carlos - 1 libro
+      { prestamo: prestamoCarlos, libro: historiaArg },
 
-        if (!librosSeleccionados.has(libroAleatorio.id)) {
-          librosSeleccionados.add(libroAleatorio.id)
+      // Préstamo de Ana - 2 libros
+      { prestamo: prestamoAna, libro: sanMartin },
+      { prestamo: prestamoAna, libro: principito },
 
-          const detalle = detallePrestamoRepository.create({
-            libro: libroAleatorio,
-            prestamo: prestamo,
-          })
+      // Préstamo 2 de Juan - 1 libro
+      { prestamo: prestamoJuan2, libro: donQuijote },
+    ]
 
-          await detallePrestamoRepository.save(detalle)
-        }
-      }
+    for (const detalleData of detalles) {
+      const detalle = detallePrestamoRepository.create(detalleData)
+      await detallePrestamoRepository.save(detalle)
     }
 
     console.log("✅ Detalles de préstamo sembrados exitosamente")

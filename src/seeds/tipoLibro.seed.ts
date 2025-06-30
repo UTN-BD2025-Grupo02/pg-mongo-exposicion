@@ -16,18 +16,11 @@ export async function seedTiposLibro() {
     }
 
     const tipos = [
-      { nombre: "Ficción", descripcion: "Novelas y cuentos de ficción" },
-      { nombre: "No Ficción", descripcion: "Libros basados en hechos reales" },
-      { nombre: "Ciencia", descripcion: "Libros científicos y técnicos" },
-      { nombre: "Historia", descripcion: "Libros de historia y biografías" },
-      { nombre: "Arte", descripcion: "Libros sobre arte y cultura" },
-      { nombre: "Filosofía", descripcion: "Textos filosóficos y pensamiento" },
-      { nombre: "Poesía", descripcion: "Colecciones de poemas y verso" },
-      { nombre: "Teatro", descripcion: "Obras teatrales y dramáticas" },
-      { nombre: "Infantil", descripcion: "Libros para niños y jóvenes" },
-      { nombre: "Académico", descripcion: "Textos universitarios y de estudio" },
-      { nombre: "Autoayuda", descripcion: "Libros de desarrollo personal" },
-      { nombre: "Cocina", descripcion: "Libros de recetas y gastronomía" },
+      { nombre: "Ficción", descripcion: "Novelas y cuentos" },
+      { nombre: "Historia", descripcion: "Libros de historia" },
+      { nombre: "Ciencia", descripcion: "Libros científicos" },
+      { nombre: "Arte", descripcion: "Libros de arte" },
+      { nombre: "Infantil", descripcion: "Libros para niños" },
     ]
 
     for (const tipoData of tipos) {

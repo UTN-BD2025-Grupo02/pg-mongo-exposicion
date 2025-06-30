@@ -17,40 +17,31 @@ export async function seedLectores() {
       return
     }
 
-    // Obtener ciudades existentes
-    const ciudades = await ciudadRepository.find()
-    if (ciudades.length === 0) {
-      console.log("❌ No hay ciudades disponibles. Ejecuta primero el seed de ciudades.")
+    // Obtener ciudades por nombre
+    const buenosAires = await ciudadRepository.findOne({ where: { nombre: "Buenos Aires" } })
+    const cordoba = await ciudadRepository.findOne({ where: { nombre: "Córdoba" } })
+    const rosario = await ciudadRepository.findOne({ where: { nombre: "Rosario" } })
+    const mendoza = await ciudadRepository.findOne({ where: { nombre: "Mendoza" } })
+    const laPlata = await ciudadRepository.findOne({ where: { nombre: "La Plata" } })
+
+    if (!buenosAires || !cordoba || !rosario || !mendoza || !laPlata) {
+      console.log("❌ No se encontraron todas las ciudades. Ejecuta primero el seed de ciudades.")
       return
     }
 
     const lectores = [
-      { nombre: "María", apellido: "González" },
-      { nombre: "Juan", apellido: "Pérez" },
-      { nombre: "Ana", apellido: "Rodríguez" },
-      { nombre: "Carlos", apellido: "López" },
-      { nombre: "Laura", apellido: "Martínez" },
-      { nombre: "Diego", apellido: "Fernández" },
-      { nombre: "Sofía", apellido: "García" },
-      { nombre: "Miguel", apellido: "Sánchez" },
-      { nombre: "Valentina", apellido: "Romero" },
-      { nombre: "Alejandro", apellido: "Torres" },
-      { nombre: "Camila", apellido: "Flores" },
-      { nombre: "Sebastián", apellido: "Morales" },
-      { nombre: "Isabella", apellido: "Herrera" },
-      { nombre: "Mateo", apellido: "Vargas" },
-      { nombre: "Lucía", apellido: "Castro" },
+      { nombre: "Juan", apellido: "Pérez", ciudadId: buenosAires },
+      { nombre: "María", apellido: "González", ciudadId: cordoba },
+      { nombre: "Carlos", apellido: "López", ciudadId: rosario },
+      { nombre: "Ana", apellido: "Martínez", ciudadId: mendoza },
+      { nombre: "Luis", apellido: "García", ciudadId: laPlata },
+      { nombre: "Laura", apellido: "Rodríguez", ciudadId: buenosAires },
+      { nombre: "Diego", apellido: "Fernández", ciudadId: cordoba },
+      { nombre: "Sofía", apellido: "Sánchez", ciudadId: rosario },
     ]
 
     for (const lectorData of lectores) {
-      // Asignar ciudad aleatoria
-      const ciudadAleatoria = ciudades[Math.floor(Math.random() * ciudades.length)]
-
-      const lector = lectorRepository.create({
-        ...lectorData,
-        ciudadId: ciudadAleatoria,
-      })
-
+      const lector = lectorRepository.create(lectorData)
       await lectorRepository.save(lector)
     }
 

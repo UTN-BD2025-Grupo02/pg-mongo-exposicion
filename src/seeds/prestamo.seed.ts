@@ -3,17 +3,6 @@ import { LectorEntity } from "../entities/lector.entity"
 import { EstadoPrestamoEntity } from "../entities/estadoPrestamo.entity"
 import { dataSource } from './config/dataSoruce';
 
-
-function getRandomDate(start: Date, end: Date): Date {
-  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
-}
-
-function addDays(date: Date, days: number): Date {
-  const result = new Date(date)
-  result.setDate(result.getDate() + days)
-  return result
-}
-
 export async function seedPrestamos() {
   try {
     await dataSource.initialize()
@@ -30,52 +19,61 @@ export async function seedPrestamos() {
       return
     }
 
-    // Obtener lectores y estados existentes
-    const lectores = await lectorRepository.find()
-    const estados = await estadoPrestamoRepository.find()
+    // Obtener lectores y estados
+    const juan = await lectorRepository.findOne({ where: { nombre: "Juan", apellido: "Pérez" } })
+    const maria = await lectorRepository.findOne({ where: { nombre: "María", apellido: "González" } })
+    const carlos = await lectorRepository.findOne({ where: { nombre: "Carlos", apellido: "López" } })
+    const ana = await lectorRepository.findOne({ where: { nombre: "Ana", apellido: "Martínez" } })
 
-    if (lectores.length === 0 || estados.length === 0) {
-      console.log("❌ No hay lectores o estados de préstamo disponibles. Ejecuta primero esos seeds.")
+    const activo = await estadoPrestamoRepository.findOne({ where: { valor: "Activo" } })
+    const devuelto = await estadoPrestamoRepository.findOne({ where: { valor: "Devuelto" } })
+    const vencido = await estadoPrestamoRepository.findOne({ where: { valor: "Vencido" } })
+
+    if (!juan || !maria || !carlos || !ana || !activo || !devuelto || !vencido) {
+      console.log("❌ No se encontraron todos los lectores o estados. Ejecuta primero esos seeds.")
       return
     }
 
-    const estadoActivo = estados.find((e) => e.valor === "Activo")
-    const estadoDevuelto = estados.find((e) => e.valor === "Devuelto")
-    const estadoVencido = estados.find((e) => e.valor === "Vencido")
+    const prestamos = [
+      {
+        fechaPrestamo: new Date("2024-01-15"),
+        fechaDevolucion: new Date("2024-01-29"),
+        fechaDevolucionReal: new Date("2024-01-28"),
+        lector: juan,
+        estado: devuelto,
+      },
+      {
+        fechaPrestamo: new Date("2024-02-01"),
+        fechaDevolucion: new Date("2024-02-15"),
+        fechaDevolucionReal: null,
+        lector: maria,
+        estado: activo,
+      },
+      {
+        fechaPrestamo: new Date("2024-01-20"),
+        fechaDevolucion: new Date("2024-02-03"),
+        fechaDevolucionReal: null,
+        lector: carlos,
+        estado: vencido,
+      },
+      {
+        fechaPrestamo: new Date("2024-02-10"),
+        fechaDevolucion: new Date("2024-02-24"),
+        fechaDevolucionReal: new Date("2024-02-22"),
+        lector: ana,
+        estado: devuelto,
+      },
+      {
+        fechaPrestamo: new Date("2024-02-15"),
+        fechaDevolucion: new Date("2024-03-01"),
+        fechaDevolucionReal: null,
+        lector: juan,
+        estado: activo,
+      },
+    ]
 
-    // Generar préstamos de los últimos 6 meses
-    const fechaInicio = new Date()
-    fechaInicio.setMonth(fechaInicio.getMonth() - 6)
-    const fechaFin = new Date()
-
-    for (let i = 0; i < 25; i++) {
-      const lectorAleatorio = lectores[Math.floor(Math.random() * lectores.length)]
-      const fechaPrestamo = getRandomDate(fechaInicio, fechaFin)
-      const fechaDevolucion = addDays(fechaPrestamo, 14) // 14 días de préstamo
-
-      // Determinar estado y fecha de devolución real
-      let estado = estadoActivo
-      let fechaDevolucionReal: Date | null=null
-
-      const random = Math.random()
-      if (random < 0.6) {
-        // 60% devueltos
-        estado = estadoDevuelto
-        fechaDevolucionReal = getRandomDate(fechaPrestamo, fechaDevolucion)
-      } else if (random < 0.8) {
-        // 20% vencidos
-        estado = estadoVencido
-      }
-      // 20% activos (sin fecha de devolución real)
-
-      const prestamo = prestamoRepository.create({
-        fechaPrestamo,
-        fechaDevolucion,
-        fechaDevolucionReal,
-        lector: lectorAleatorio,
-        estado: estado || estadoActivo,
-      })
-
+    for (const prestamoData of prestamos) {
+      const prestamo = prestamoRepository.create(prestamoData)
       await prestamoRepository.save(prestamo)
     }
 

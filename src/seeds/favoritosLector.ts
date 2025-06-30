@@ -3,6 +3,7 @@ import { LectorEntity } from "../entities/lector.entity"
 import { TipoLibroEntity } from "../entities/tipoLibro.entity"
 import { dataSource } from './config/dataSoruce';
 
+
 export async function seedFavoritosLector() {
   try {
     await dataSource.initialize()
@@ -19,42 +20,44 @@ export async function seedFavoritosLector() {
       return
     }
 
-    // Obtener lectores y tipos de libro existentes
-    const lectores = await lectorRepository.find()
-    const tiposLibro = await tipoLibroRepository.find()
+    // Obtener lectores y tipos
+    const juan = await lectorRepository.findOne({ where: { nombre: "Juan", apellido: "Pérez" } })
+    const maria = await lectorRepository.findOne({ where: { nombre: "María", apellido: "González" } })
+    const carlos = await lectorRepository.findOne({ where: { nombre: "Carlos", apellido: "López" } })
+    const ana = await lectorRepository.findOne({ where: { nombre: "Ana", apellido: "Martínez" } })
 
-    if (lectores.length === 0 || tiposLibro.length === 0) {
-      console.log("❌ No hay lectores o tipos de libro disponibles. Ejecuta primero esos seeds.")
+    const ficcion = await tipoLibroRepository.findOne({ where: { nombre: "Ficción" } })
+    const historia = await tipoLibroRepository.findOne({ where: { nombre: "Historia" } })
+    const ciencia = await tipoLibroRepository.findOne({ where: { nombre: "Ciencia" } })
+    const arte = await tipoLibroRepository.findOne({ where: { nombre: "Arte" } })
+    const infantil = await tipoLibroRepository.findOne({ where: { nombre: "Infantil" } })
+
+    if (!juan || !maria || !carlos || !ana || !ficcion || !historia || !ciencia || !arte || !infantil) {
+      console.log("❌ No se encontraron todos los lectores o tipos de libro.")
       return
     }
 
-    // Crear favoritos para cada lector
-    for (const lector of lectores) {
-      // Cada lector puede tener entre 1 y 4 tipos de libro favoritos
-      const numFavoritos = Math.floor(Math.random() * 4) + 1
-      const tiposSeleccionados = new Set<number>()
+    const favoritos = [
+      // Juan prefiere ficción e historia
+      { idLector: juan, idTipoLibro: ficcion },
+      { idLector: juan, idTipoLibro: historia },
 
-      for (let i = 0; i < numFavoritos; i++) {
-        let tipoAleatorio
-        let intentos = 0
+      // María prefiere ficción y arte
+      { idLector: maria, idTipoLibro: ficcion },
+      { idLector: maria, idTipoLibro: arte },
 
-        // Evitar duplicados para el mismo lector
-        do {
-          tipoAleatorio = tiposLibro[Math.floor(Math.random() * tiposLibro.length)]
-          intentos++
-        } while (tiposSeleccionados.has(tipoAleatorio.id) && intentos < 10)
+      // Carlos prefiere historia y ciencia
+      { idLector: carlos, idTipoLibro: historia },
+      { idLector: carlos, idTipoLibro: ciencia },
 
-        if (!tiposSeleccionados.has(tipoAleatorio.id)) {
-          tiposSeleccionados.add(tipoAleatorio.id)
+      // Ana prefiere infantil y ficción
+      { idLector: ana, idTipoLibro: infantil },
+      { idLector: ana, idTipoLibro: ficcion },
+    ]
 
-          const favorito = favoritosRepository.create({
-            idLector: lector,
-            idTipoLibro: tipoAleatorio,
-          })
-
-          await favoritosRepository.save(favorito)
-        }
-      }
+    for (const favoritoData of favoritos) {
+      const favorito = favoritosRepository.create(favoritoData)
+      await favoritosRepository.save(favorito)
     }
 
     console.log("✅ Favoritos de lectores sembrados exitosamente")

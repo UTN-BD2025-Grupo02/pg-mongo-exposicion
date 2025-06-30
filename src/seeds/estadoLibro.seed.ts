@@ -2,7 +2,6 @@ import { EstadoLibroEntity } from "../entities/estadoLibro.entity"
 import { dataSource } from './config/dataSoruce';
 
 
-
 export async function seedEstadosLibro() {
   try {
     await dataSource.initialize()
@@ -17,14 +16,7 @@ export async function seedEstadosLibro() {
       return
     }
 
-    const estados = [
-      { valor: "Disponible" },
-      { valor: "Prestado" },
-      { valor: "En reparación" },
-      { valor: "Perdido" },
-      { valor: "Reservado" },
-      { valor: "Fuera de circulación" },
-    ]
+    const estados = [{ valor: "Disponible" }, { valor: "Prestado" }, { valor: "En reparación" }, { valor: "Perdido" }]
 
     for (const estadoData of estados) {
       const estado = estadoLibroRepository.create(estadoData)

@@ -19,49 +19,66 @@ export async function seedLibros() {
       return
     }
 
-    // Obtener estados y tipos existentes
-    const estados = await estadoLibroRepository.find()
-    const tipos = await tipoLibroRepository.find()
+    // Obtener estados y tipos
+    const disponible = await estadoLibroRepository.findOne({ where: { valor: "Disponible" } })
+    const prestado = await estadoLibroRepository.findOne({ where: { valor: "Prestado" } })
 
-    if (estados.length === 0 || tipos.length === 0) {
-      console.log("❌ No hay estados o tipos de libro disponibles. Ejecuta primero esos seeds.")
+    const ficcion = await tipoLibroRepository.findOne({ where: { nombre: "Ficción" } })
+    const historia = await tipoLibroRepository.findOne({ where: { nombre: "Historia" } })
+    const ciencia = await tipoLibroRepository.findOne({ where: { nombre: "Ciencia" } })
+    const arte = await tipoLibroRepository.findOne({ where: { nombre: "Arte" } })
+    const infantil = await tipoLibroRepository.findOne({ where: { nombre: "Infantil" } })
+
+    if (!disponible || !prestado || !ficcion || !historia || !ciencia || !arte || !infantil) {
+      console.log("❌ No se encontraron todos los estados o tipos. Ejecuta primero esos seeds.")
       return
     }
 
     const libros = [
-      { titulo: "Cien años de soledad", autor: "Gabriel García Márquez", editorial: "Sudamericana" },
-      { titulo: "Don Quijote de la Mancha", autor: "Miguel de Cervantes", editorial: "Planeta" },
-      { titulo: "El Aleph", autor: "Jorge Luis Borges", editorial: "Emecé" },
-      { titulo: "Rayuela", autor: "Julio Cortázar", editorial: "Sudamericana" },
-      { titulo: "La casa de los espíritus", autor: "Isabel Allende", editorial: "Plaza & Janés" },
-      { titulo: "El túnel", autor: "Ernesto Sabato", editorial: "Sur" },
-      { titulo: "Pedro Páramo", autor: "Juan Rulfo", editorial: "Fondo de Cultura Económica" },
-      { titulo: "Ficciones", autor: "Jorge Luis Borges", editorial: "Sur" },
-      { titulo: "La tregua", autor: "Mario Benedetti", editorial: "Alfa" },
-      { titulo: "El amor en los tiempos del cólera", autor: "Gabriel García Márquez", editorial: "Oveja Negra" },
-      { titulo: "Sobre héroes y tumbas", autor: "Ernesto Sabato", editorial: "Fabril" },
-      { titulo: "La ciudad y los perros", autor: "Mario Vargas Llosa", editorial: "Seix Barral" },
-      { titulo: "El juguete rabioso", autor: "Roberto Arlt", editorial: "Claridad" },
-      { titulo: "Boquitas pintadas", autor: "Manuel Puig", editorial: "Sudamericana" },
-      { titulo: "El beso de la mujer araña", autor: "Manuel Puig", editorial: "Seix Barral" },
-      { titulo: "Martín Fierro", autor: "José Hernández", editorial: "Imprenta de la Pampa" },
-      { titulo: "Facundo", autor: "Domingo Faustino Sarmiento", editorial: "Progreso" },
-      { titulo: "Los detectives salvajes", autor: "Roberto Bolaño", editorial: "Anagrama" },
-      { titulo: "El reino de este mundo", autor: "Alejo Carpentier", editorial: "EDUCA" },
-      { titulo: "La muerte de Artemio Cruz", autor: "Carlos Fuentes", editorial: "Fondo de Cultura Económica" },
+      {
+        titulo: "Cien años de soledad",
+        autor: "Gabriel García Márquez",
+        editorial: "Sudamericana",
+        estado: disponible,
+        tipoLibro: ficcion,
+      },
+      {
+        titulo: "Don Quijote de la Mancha",
+        autor: "Miguel de Cervantes",
+        editorial: "Planeta",
+        estado: prestado,
+        tipoLibro: ficcion,
+      },
+      { titulo: "El Aleph", autor: "Jorge Luis Borges", editorial: "Emecé", estado: disponible, tipoLibro: ficcion },
+      {
+        titulo: "Historia Argentina",
+        autor: "Felipe Pigna",
+        editorial: "Planeta",
+        estado: disponible,
+        tipoLibro: historia,
+      },
+      { titulo: "San Martín", autor: "Hugo Chumbita", editorial: "Emecé", estado: prestado, tipoLibro: historia },
+      {
+        titulo: "Física Cuántica",
+        autor: "Stephen Hawking",
+        editorial: "Crítica",
+        estado: disponible,
+        tipoLibro: ciencia,
+      },
+      { titulo: "El Universo", autor: "Carl Sagan", editorial: "Planeta", estado: disponible, tipoLibro: ciencia },
+      { titulo: "Historia del Arte", autor: "Ernst Gombrich", editorial: "Phaidon", estado: prestado, tipoLibro: arte },
+      {
+        titulo: "El Principito",
+        autor: "Antoine de Saint-Exupéry",
+        editorial: "Salamandra",
+        estado: disponible,
+        tipoLibro: infantil,
+      },
+      { titulo: "Matilda", autor: "Roald Dahl", editorial: "Alfaguara", estado: disponible, tipoLibro: infantil },
     ]
 
     for (const libroData of libros) {
-      // Asignar estado y tipo aleatorio
-      const estadoAleatorio = estados[Math.floor(Math.random() * estados.length)]
-      const tipoAleatorio = tipos[Math.floor(Math.random() * tipos.length)]
-
-      const libro = libroRepository.create({
-        ...libroData,
-        estado: estadoAleatorio,
-        tipoLibro: tipoAleatorio,
-      })
-
+      const libro = libroRepository.create(libroData)
       await libroRepository.save(libro)
     }
 

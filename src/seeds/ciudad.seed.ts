@@ -1,5 +1,7 @@
 import { CiudadEntity } from "../entities/ciudad.entity"
-import {dataSource} from './config/dataSoruce';
+import { dataSource } from './config/dataSoruce';
+
+
 
 export async function seedCiudades() {
   try {
@@ -16,16 +18,11 @@ export async function seedCiudades() {
     }
 
     const ciudades = [
-      { nombre: "Buenos Aires", nroHabitante: 3075646, },
-      { nombre: "Córdoba", nroHabitante: 1454536, },
-      { nombre: "Rosario", nroHabitante: 1193605, },
-      { nombre: "Mendoza", nroHabitante: 115041, },
-      { nombre: "La Plata", nroHabitante: 694253, },
-      { nombre: "San Miguel de Tucumán", nroHabitante: 548866, },
-      { nombre: "Mar del Plata", nroHabitante: 614350, },
-      { nombre: "Salta", nroHabitante: 535303, },
-      { nombre: "Santa Fe", nroHabitante: 391231, },
-      { nombre: "San Juan", nroHabitante: 112778, },
+      { nombre: "Buenos Aires", nroHabitante: 3000000 },
+      { nombre: "Córdoba", nroHabitante: 1500000 },
+      { nombre: "Rosario", nroHabitante: 1200000 },
+      { nombre: "Mendoza", nroHabitante: 115000 },
+      { nombre: "La Plata", nroHabitante: 700000 },
     ]
 
     for (const ciudadData of ciudades) {
