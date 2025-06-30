@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { dynamicImport } from './utils/dynamic-import';
 import { entities } from './entities';
+import { CiudadesController } from './ciudades/ciudades.controller';
+import { CiudadesService } from './ciudades/ciudades.service';
 
 
 
@@ -27,6 +29,7 @@ import { entities } from './entities';
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true,
         useUnifiedTopology: true,
+        retryWrites:false,
         ssl: configService.get('MONGO_SSL')
       }),
     }),
@@ -45,9 +48,11 @@ import { entities } from './entities';
         },
       }),
     ) as any,
+
+    TypeOrmModule.forFeature(entities),
   ],
 
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, CiudadesController],
+  providers: [AppService, CiudadesService],
 })
 export class AppModule {}
