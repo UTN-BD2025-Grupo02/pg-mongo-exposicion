@@ -8,11 +8,11 @@ export class FavoritosLectorEntity extends BaseEntity {
 
   @ObjectIdColumn()
   _id: ObjectId;
-
-  @Column()
+  // @ts-ignore
+  @Column({type: 'objectId'})
   idLector: ObjectId;
-
-  @Column()
+  // @ts-ignore
+  @Column({type: 'objectId'})
   idTipoLibro: ObjectId;
 
 }

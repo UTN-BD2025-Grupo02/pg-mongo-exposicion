@@ -6,6 +6,6 @@ export class EstadoLibroEntity extends BaseEntity {
 @ObjectIdColumn()
   _id: ObjectId;
 
-@Column()
+@Column('string')
   valor: string;
 }

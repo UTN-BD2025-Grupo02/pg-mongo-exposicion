@@ -6,18 +6,18 @@ export class PrestamoEntity extends BaseEntity {
   @ObjectIdColumn()
   _id: ObjectId;
 
-  @Column()
+  @Column('date')
   fechaPrestamo: Date;
 
-  @Column()
+  @Column('date')
   fechaDevolucion: Date;
 
-  @Column({ nullable: true })
+  @Column({type: 'date', nullable: true })
   fechaDevolucionReal: Date|null;
-
-  @Column()
+  // @ts-ignore
+  @Column({type: 'objectId'})
   lector: ObjectId;
-
-  @Column()
+  // @ts-ignore
+  @Column({type: 'objectId'})
   estado: ObjectId;
 }

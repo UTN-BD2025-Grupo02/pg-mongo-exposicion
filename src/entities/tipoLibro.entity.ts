@@ -7,10 +7,10 @@ export class TipoLibroEntity extends BaseEntity {
   @ObjectIdColumn()
   _id: ObjectId;
 
-  @Column()
+  @Column('string')
   nombre: string;
 
-  @Column()
+  @Column('string')
   descripcion: string;
 
 }

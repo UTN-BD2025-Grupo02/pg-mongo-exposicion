@@ -7,13 +7,14 @@ export class LectorEntity extends BaseEntity {
   _id: ObjectId;
 
 
-  @Column()
+  @Column('string')
   nombre: string;
 
 
-  @Column()
+  @Column('string')
   apellido: string;
 
-  @Column()
+  // @ts-ignore
+  @Column({type: 'objectId'})
   ciudadId: ObjectId;
 }

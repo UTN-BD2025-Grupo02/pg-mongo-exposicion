@@ -7,9 +7,10 @@ export class DetallePrestamoEntity extends BaseEntity {
   @ObjectIdColumn()
   _id: number;
 
-  @Column()
+  // @ts-ignore
+  @Column({type: 'objectId'})
   libro: ObjectId;
-
-  @Column()
+  // @ts-ignore
+  @Column({type: 'objectId'})
   prestamo: ObjectId;
 }

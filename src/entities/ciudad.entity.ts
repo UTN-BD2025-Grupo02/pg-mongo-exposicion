@@ -8,9 +8,9 @@ export class CiudadEntity extends BaseEntity {
   @ObjectIdColumn()
   _id: ObjectId;
 
-  @Column()
+  @Column('string')
   nombre: string;
 
-  @Column()
+  @Column('number')
   nroHabitante: number;
 }

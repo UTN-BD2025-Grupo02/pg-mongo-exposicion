@@ -6,19 +6,19 @@ export class LibroEntity extends BaseEntity {
   @ObjectIdColumn()
   _id: ObjectId;
 
-  @Column()
+  @Column('string')
   titulo: string;
 
-  @Column()
+  @Column('string')
   autor: string;
 
-  @Column()
+  @Column('string')
   editorial: string;
-
-  @Column()
+  // @ts-ignore
+  @Column({type: 'objectId'})
   estado: ObjectId;
-
-  @Column()
+  // @ts-ignore
+  @Column({type: 'objectId'})
   tipoLibro: ObjectId;
 
 
