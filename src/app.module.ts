@@ -18,17 +18,16 @@ import { entities } from './entities';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get('DB_HOST'),
-        port: +configService.get('DB_PORT'),
-        username: configService.get('DB_USERNAME'),
-        password: configService.get('DB_PASSWORD'),
-        database: configService.get('DB_DATABASE'),
+        type: 'mongodb',
+        host: configService.get('MONGO_HOST'),
+        port: +configService.get('MONGO_PORT'),
+        username: configService.get('MONGO_USERNAME'),
+        password: configService.get('MONGO_PASSWORD'),
+        database: configService.get('MONGO_DATABASE'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true,
+        useUnifiedTopology: true,
         ssl: configService.get('DB_SSL')
-          ? { rejectUnauthorized: false }
-          : false,
       }),
     }),
     dynamicImport('@adminjs/nestjs').then(({ AdminModule }) =>
