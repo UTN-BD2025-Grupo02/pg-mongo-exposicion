@@ -32,12 +32,6 @@ que vive, tipo de libros que le gustan leer y el número de habitantes de su ciu
 
 ![image](https://github.com/user-attachments/assets/72322608-abbb-4426-b991-9a951f4c45c2)
 
-
-## 📦 Estructura del proyecto (simplificada)
-
-  ```
-insertar la estructura del proyecto
-  ```
 # MongoDB
 ## Entidades
 
