@@ -1,8 +1,12 @@
 //Crear la entidad ciudad 
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity, Check } from 'typeorm';
 import {LectorEntity} from './lector.entity';
 
+
+
 @Entity('ciudad')
+@Check('"nroHabitante": > 0')
+@Check('"nombre" IS NOT NULL')
 export class CiudadEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
