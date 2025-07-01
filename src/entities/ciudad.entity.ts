@@ -5,15 +5,15 @@ import {LectorEntity} from './lector.entity';
 
 
 @Entity('ciudad')
-@Check('"nroHabitante": > 0')
-@Check('"nombre" IS NOT NULL')
 export class CiudadEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Check('"nombre" IS NOT NULL')
   @Column({ type: 'varchar', length: 50 })
   nombre: string;
 
+  @Check('"nroHabitante" > 0')
   @Column({ type: 'integer' })
   nroHabitante: number;
 
