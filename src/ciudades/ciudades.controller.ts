@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { CiudadesService } from './ciudades.service';
 import { CreateCiudadDto } from '../interfaces/createCiudad.dto';
 import { CiudadEntity } from '../entities/ciudad.entity';
+import { PatchCiudadDto } from '../interfaces/patchCiudad.dto';
 
 @Controller('ciudades')
 export class CiudadesController {
@@ -22,8 +23,13 @@ export class CiudadesController {
     return this.ciudadesService.findByName(nombre);
   }
 
+  @Patch(':nombre')
+  patch(@Param('nombre') nombre: string, @Body() patchCiudadDto: PatchCiudadDto): Promise<CiudadEntity> {
+    return this.ciudadesService.patch(nombre, patchCiudadDto);
+  }
+
   @Delete(':nombre')
-  delete(nombre: string): Promise<{message: string}> {
+  delete(@Param('nombre') nombre: string): Promise<{message: string}> {
     return this.ciudadesService.delete(nombre);
   }
 }

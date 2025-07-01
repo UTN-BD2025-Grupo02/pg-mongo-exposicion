@@ -3,6 +3,7 @@ import { Repository } from 'typeorm';
 import { CiudadEntity } from '../entities/ciudad.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCiudadDto } from '../interfaces/createCiudad.dto';
+import { PatchCiudadDto } from '../interfaces/patchCiudad.dto';
 
 @Injectable()
 export class CiudadesService {
@@ -33,6 +34,12 @@ export class CiudadesService {
       throw new NotFoundException('Ciudad no encontrada')
     }
     return ciudad;
+  }
+
+  async patch(nombre: string, patchCiudadDto: PatchCiudadDto): Promise<CiudadEntity> {
+    const ciudad = await this.findByName(nombre);
+    this.ciudadRepository.merge(ciudad, patchCiudadDto);
+    return this.ciudadRepository.save(ciudad);
   }
 
   async delete(nombre: string): Promise<{message: string}> {
