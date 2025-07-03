@@ -21,6 +21,16 @@ El caso práctico se basa en la gestión de una **biblioteca**, que debe registr
 
 ---
 
+## **Ejercicio Biblioteca**
+
+Una biblioteca necesita disponer de una base de datos para llevar la gestión de sus préstamos. La base de datos deberá almacenar los siguientes datos sobre los lectores: un identificador de lector, su nombre, ciudad en la
+que vive, tipo de libros que le gustan leer y el número de habitantes de su ciudad (para elaborar posibles estadísticas). Por su parte, sobre los libros de la biblioteca se debe registrar el código del libro, título, tipo de libro
+(drama, comedia, terror, romántico, aventuras, biografía, etc.); y lo más importante, la biblioteca debe conocer en todo momento qué libro está prestado y a quién, así como la fecha de realización y devolución del préstamo.
+
+## **Diagrama Entidad Relación**
+
+![image](https://github.com/user-attachments/assets/72322608-abbb-4426-b991-9a951f4c45c2)
+
 ## 🛠 Tecnologías Utilizadas
 
 * NestJS
