@@ -5,7 +5,7 @@ import { ObjectId } from 'mongodb';
 @Entity('detalle_prestamo')
 export class DetallePrestamoEntity extends BaseEntity {
   @ObjectIdColumn()
-  _id: number;
+  _id: ObjectId;
 
   // @ts-ignore
   @Column({type: 'objectId'})
