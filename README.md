@@ -52,6 +52,36 @@ El caso práctico se basa en la gestión de una **biblioteca**, que debe registr
 
 ## 🔌 Configuración de Conexiones
 
+### PostgreSQL
+
+1. Variables en `.env`:
+
+```env
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=biblioteca
+```
+
+2. Configuración en `TypeOrmModule`:
+
+```ts
+TypeOrmModule.forRoot({
+  type: 'postgres',
+  host: process.env.POSTGRES_HOST,
+  port: +process.env.POSTGRES_PORT,
+  username: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_DB,
+  entities: [__dirname + '/../entities/*.entity{.ts,.js}'],
+  synchronize: true,
+}),
+```
+
+
+---
+
 ### MongoDB
 
 1. Crear archivo `.env` con las siguientes variables:
@@ -84,35 +114,6 @@ export const dataSource = new DataSource({
   synchronize: false,
   ssl: MONGO.MONGO_SSL,
 });
-```
-
----
-
-### PostgreSQL
-
-1. Variables en `.env`:
-
-```env
-POSTGRES_HOST=localhost
-POSTGRES_PORT=5432
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-POSTGRES_DB=biblioteca
-```
-
-2. Configuración en `TypeOrmModule`:
-
-```ts
-TypeOrmModule.forRoot({
-  type: 'postgres',
-  host: process.env.POSTGRES_HOST,
-  port: +process.env.POSTGRES_PORT,
-  username: process.env.POSTGRES_USER,
-  password: process.env.POSTGRES_PASSWORD,
-  database: process.env.POSTGRES_DB,
-  entities: [__dirname + '/../entities/*.entity{.ts,.js}'],
-  synchronize: true,
-}),
 ```
 
 ---
