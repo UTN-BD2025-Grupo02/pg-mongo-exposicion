@@ -6,14 +6,6 @@ Práctico de Implementación de base de datos Relacional y No Relacional para la
 
 Grupo 02 - Bases de Datos
 
-## **Resumen del Tutorial**
-
-Este tutorial guía al usuario a través de los pasos necesarios para implementar la creación e inserción de datos en una base de datos relacional en PostgreSQL y en una base de datos documental en MongoDB. Se incluyen instrucciones detalladas para:
-
-- Crear las entidades para cada base de datos.
-- Configuración de conexiones.
-- Inserción de datos iniciales para pruebas.
-
 ## 🛠 Tecnologías utilizadas
 - NestJS
 - PostgreSQL
@@ -267,7 +259,7 @@ export class AppModule {}
 
 En cuanto a la diferencia mas radical a MongoDB, se encuentra en el typeORM, es decir, donde estan las relaciones. Como por ejemplo, prestamo entity
 
-## Postgres
+## Entity Postgres
 
 ```
 import {
@@ -310,7 +302,7 @@ export class PrestamoEntity extends BaseEntity {
 }
 ```
 
-## Mongo
+## Entity Mongo
 ```
 import { Entity, Column, BaseEntity, ObjectIdColumn } from 'typeorm';
 import { ObjectId } from 'mongodb';
