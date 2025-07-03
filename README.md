@@ -28,7 +28,6 @@ El caso práctico se basa en la gestión de una **biblioteca**, que debe registr
 * MongoDB
 * TypeORM
 * Docker
-* AdminJS
 
 ---
 
@@ -383,7 +382,7 @@ export async function seedPrestamos() {
 ```
 ---
 
-## 📦 Service y Controller
+## ⚙️ Service y Controller
 
 ### Services Postgres
 
@@ -486,28 +485,6 @@ export class PrestamosController {
 
 ---
 
-## ⚙️ AdminJS
-
-Se puede utilizar para administrar gráficamente las entidades:
-
-```ts
-dynamicImport('@adminjs/nestjs').then(({ AdminModule }) =>
-  AdminModule.createAdminAsync({
-    useFactory: async () => {
-      const AdminJS = (await dynamicImport('adminjs')).default;
-      return {
-        adminJsOptions: {
-          rootPath: '/admin',
-          resources: [...entities],
-        },
-      };
-    },
-  }),
-);
-```
-
----
-
 ## 🧠 Comparación entre MongoDB y PostgreSQL
 
 | Característica          | MongoDB                        | PostgreSQL                          |
@@ -531,11 +508,13 @@ dynamicImport('@adminjs/nestjs').then(({ AdminModule }) =>
 
 ## 🧑‍💻 Autores
 
-* @AgusLiendo
-* @EliasDalmasso
-* @MaschioPablo
-* @Balti2003
-* @ManuelVeronese
-* @Ignaciofumero
+* Agustin Liendo
+* Elias Dalmasso
+* Pablo Maschio
+* Baltazar Lomello
+* Manuel Veronese
+* Ignacio Fumero
+* Pedro Mansilla
+* Francisco Belegni
 
 ---
