@@ -1,5 +1,5 @@
 import { TipoLibroEntity } from "../entities/tipoLibro.entity"
-import { dataSource } from './config/dataSoruce';
+import { dataSource } from './config/dataSource';
 
 export async function seedTiposLibro() {
   try {

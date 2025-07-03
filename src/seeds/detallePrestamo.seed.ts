@@ -2,7 +2,7 @@ import { DetallePrestamoEntity } from "../entities/detallePrestamo.entity"
 import { PrestamoEntity } from "../entities/prestamo.entity"
 import { LibroEntity } from "../entities/libro.entity"
 import { LectorEntity } from "../entities/lector.entity"
-import { dataSource } from './config/dataSoruce';
+import { dataSource } from './config/dataSource';
 
 export async function seedDetallesPrestamo() {
   try {

@@ -1,5 +1,5 @@
 import { CiudadEntity } from "../entities/ciudad.entity"
-import { dataSource } from './config/dataSoruce';
+import { dataSource } from './config/dataSource';
 
 
 

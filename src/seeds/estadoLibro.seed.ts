@@ -1,5 +1,5 @@
 import { EstadoLibroEntity } from "../entities/estadoLibro.entity"
-import { dataSource } from './config/dataSoruce';
+import { dataSource } from './config/dataSource';
 
 
 export async function seedEstadosLibro() {

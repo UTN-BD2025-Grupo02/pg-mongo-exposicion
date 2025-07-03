@@ -1,7 +1,7 @@
 import { FavoritosLectorEntity } from "../entities/favoritoLector.entity"
 import { LectorEntity } from "../entities/lector.entity"
 import { TipoLibroEntity } from "../entities/tipoLibro.entity"
-import { dataSource } from './config/dataSoruce';
+import { dataSource } from './config/dataSource';
 
 
 export async function seedFavoritosLector() {
