@@ -21,12 +21,17 @@ export class PrestamosService {
       // Join con estado del préstamo
       {
         $lookup: {
+          //coleccion a unir
           from: 'estado_prestamo',
+          //campo en la entidad actual (Prestamo)
           localField: 'estado',
+          //Campo en la entidad a unir (EstadoPrestamo)
           foreignField: '_id',
+          //Nombre del campo en la entidad resultante
           as: 'estado'
         }
       },
+      //Convierte el array en un objeto
       { $unwind: '$estado' },
 
       // Join con lector
@@ -54,6 +59,7 @@ export class PrestamosService {
       {
         $unwind: {
           path: '$detalles',
+          //Para evitar eliminar detalles que no tengan libro
           preserveNullAndEmptyArrays: true
         }
       },
@@ -72,15 +78,17 @@ export class PrestamosService {
         }
       },
 
-      // Reconstruir array de detalles por préstamo
+      // Reconstruir el array de prestamos para incorporar los detalles
       {
         $group: {
           _id: '$_id',
           fechaPrestamo: { $first: '$fechaPrestamo' },
           fechaDevolucion: { $first: '$fechaDevolucion' },
           fechaDevolucionReal: { $first: '$fechaDevolucionReal' },
+          //$first mantiene los primeros elementos (incorporados previamente) de cada grupo
           lector: { $first: '$lector' },
           estado: { $first: '$estado' },
+          //$push incorpora los elementos de cada grupo en un array
           detalles: { $push: '$detalles' }
         }
       }
