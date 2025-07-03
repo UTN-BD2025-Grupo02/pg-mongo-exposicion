@@ -4,9 +4,10 @@
 # 📚 Tutorial de Implementación de Bases de Datos Relacional y No Relacional con NestJS
 
 **Materia:** Bases de Datos
+
 **Carrera:** Ingeniería en Sistemas
-**Universidad Tecnológica Nacional - Facultad Regional Villa María
-Grupo 02 - Bases de Datos**
+
+**Universidad Tecnológica Nacional - Facultad Regional Villa María Grupo 02 - Bases de Datos**
 
 ---
 
@@ -37,7 +38,6 @@ que vive, tipo de libros que le gustan leer y el número de habitantes de su ciu
 * PostgreSQL
 * MongoDB
 * TypeORM
-* Docker
 
 ---
 
@@ -51,7 +51,6 @@ que vive, tipo de libros que le gustan leer y el número de habitantes de su ciu
 │   ├── seeds/
 │   └── config/
 ├── .env
-├── docker-compose.yml
 ├── package.json
 └── README.md
 ```
@@ -390,7 +389,7 @@ export async function seedPrestamos() {
 ```
 ---
 
-## ⚙️ Service y Controller
+## ⚙️ Service
 
 ### Services Postgres
 
@@ -475,21 +474,6 @@ export class PrestamosService {
   }
 }
 ```
----
-
-### Controller
-
-```ts
-@Controller('prestamos')
-export class PrestamosController {
-  constructor(private readonly service: PrestamosService) {}
-
-  @Get()
-  findAll(): Promise<any[]> {
-    return this.service.findAll();
-  }
-}
-```
 
 ---
 
@@ -505,21 +489,12 @@ export class PrestamosController {
 
 ---
 
-## 🧪 Pruebas
-
-1. Levantar la base de datos con Docker (`docker-compose up`)
-2. Ejecutar los seeds con `ts-node src/seeds/seedPrestamos.ts`
-3. Correr el servidor NestJS con `npm run start:dev`
-4. Acceder a `/admin` para visualizar con AdminJS
-
----
-
 ## 🧑‍💻 Autores
 
-* Agustin Liendo
+* Agustin Liendo Ortiz
 * Elias Dalmasso
 * Pablo Maschio
-* Baltazar Lomello
+* Baltasar Lomello
 * Manuel Veronese
 * Ignacio Fumero
 * Pedro Mansilla
