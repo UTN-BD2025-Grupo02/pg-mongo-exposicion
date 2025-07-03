@@ -1,73 +1,294 @@
-## Implementacion Mongo
+Perfecto, Agustín. A continuación te dejo una versión estructurada de tu contenido en formato de **README tipo tutorial**, ideal para un repositorio en GitHub o entrega académica. Se presenta como una guía paso a paso para implementar la base de datos en PostgreSQL y MongoDB usando NestJS.
 
-Práctico de Implementacion de base de datos No Relacional para la materia Bases de Datos, en la carrera Ingeniería en Sistemas de la Universidad Tecnológica Nacional Facultad Regional Villa María.
+---
 
-## Descripcion
+# 📚 Tutorial de Implementación de Bases de Datos Relacional y No Relacional con NestJS
 
-Este repositorio contiene los archivos 
+**Materia:** Bases de Datos
+**Carrera:** Ingeniería en Sistemas
+**Universidad Tecnológica Nacional - Facultad Regional Villa María
+Grupo 02 - Bases de Datos**
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ npm run start
+## 🧾 Resumen
 
-# watch mode
-$ npm run start:dev
+Este tutorial tiene como objetivo guiar al usuario en la implementación de un sistema backend utilizando **NestJS**, con soporte para dos tipos de base de datos:
 
-# production mode
-$ npm run start:prod
-```
+* **PostgreSQL** (relacional)
+* **MongoDB** (no relacional)
 
-## Run tests
+El caso práctico se basa en la gestión de una **biblioteca**, que debe registrar información sobre lectores, libros y préstamos, adaptando el diseño tanto para una base relacional como para una documental.
 
-```bash
-# unit tests
-$ npm run test
+---
 
-# e2e tests
-$ npm run test:e2e
+## 🛠 Tecnologías Utilizadas
 
-# test coverage
-$ npm run test:cov
-```
+* NestJS
+* PostgreSQL
+* MongoDB
+* TypeORM
+* Docker
+* AdminJS
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## 📁 Estructura del Proyecto
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+├── src/
+│   ├── entities/
+│   ├── services/
+│   ├── controllers/
+│   ├── seeds/
+│   └── config/
+├── .env
+├── docker-compose.yml
+├── package.json
+└── README.md
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## 🔌 Configuración de Conexiones
 
-Check out a few resources that may come in handy when working with NestJS:
+### MongoDB
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+1. Crear archivo `.env` con las siguientes variables:
 
-## Support
+```env
+MONGO_HOST=localhost
+MONGO_PORT=27017
+MONGO_USERNAME=root
+MONGO_PASSWORD=example
+MONGO_DATABASE=biblioteca
+MONGO_SSL=false
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+2. Configuración del `DataSource`:
 
-## Stay in touch
+```ts
+// src/seeds/config/dataSource.ts
+import { DataSource } from 'typeorm';
+import { MONGO } from './env';
+import { entities } from '../../entities';
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+export const dataSource = new DataSource({
+  type: "mongodb",
+  host: MONGO.MONGO_HOST,
+  port: MONGO.MONGO_PORT,
+  username: MONGO.MONGO_USERNAME,
+  password: MONGO.MONGO_PASSWORD,
+  database: MONGO.MONGO_DATABASE,
+  entities,
+  synchronize: false,
+  ssl: MONGO.MONGO_SSL,
+});
+```
 
-## License
+---
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### PostgreSQL
+
+1. Variables en `.env`:
+
+```env
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=biblioteca
+```
+
+2. Configuración en `TypeOrmModule`:
+
+```ts
+TypeOrmModule.forRoot({
+  type: 'postgres',
+  host: process.env.POSTGRES_HOST,
+  port: +process.env.POSTGRES_PORT,
+  username: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_DB,
+  entities: [__dirname + '/../entities/*.entity{.ts,.js}'],
+  synchronize: true,
+}),
+```
+
+---
+
+## 🧱 Entidades
+
+### MongoDB
+
+Ejemplo: `CiudadEntity`
+
+```ts
+@Entity('ciudad')
+export class CiudadEntity extends BaseEntity {
+  @ObjectIdColumn()
+  _id: ObjectId;
+
+  @Column('string')
+  nombre: string;
+
+  @Column('number')
+  nroHabitante: number;
+}
+```
+
+---
+
+### PostgreSQL
+
+Ejemplo: `PrestamoEntity`
+
+```ts
+@Entity('prestamo')
+export class PrestamoEntity extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ type: 'date' })
+  fechaPrestamo: Date;
+
+  @ManyToOne(() => LectorEntity, (lector) => lector.prestamos)
+  lector: LectorEntity;
+
+  @ManyToOne(() => EstadoPrestamoEntity, (estado) => estado.prestamos)
+  estado: EstadoPrestamoEntity;
+}
+```
+
+---
+
+## 🌱 Seeds (Datos de prueba)
+
+### MongoDB
+
+```ts
+export async function seedCiudades() {
+  await dataSource.initialize();
+  const repo = dataSource.getRepository(CiudadEntity);
+  const ciudades = [
+    { nombre: "Buenos Aires", nroHabitante: 3000000 },
+    { nombre: "Córdoba", nroHabitante: 1500000 },
+  ];
+  for (const c of ciudades) {
+    await repo.save(repo.create(c));
+  }
+}
+```
+
+### PostgreSQL
+
+```ts
+export async function seedPrestamos() {
+  await dataSource.initialize();
+  const repo = dataSource.getRepository(PrestamoEntity);
+  const prestamos = [
+    {
+      fechaPrestamo: new Date("2024-01-15"),
+      lector: juan,
+      estado: devuelto,
+    },
+  ];
+  for (const p of prestamos) {
+    await repo.save(repo.create(p));
+  }
+}
+```
+
+---
+
+## 📦 Service y Controller
+
+### Service MongoDB
+
+```ts
+@Injectable()
+export class PrestamosService {
+  constructor(
+    @InjectRepository(PrestamoEntity)
+    private readonly prestamoRepo: MongoRepository<PrestamoEntity>,
+  ) {}
+
+  async findAll(): Promise<any[]> {
+    const prestamos = await this.prestamoRepo.find();
+    // Enriquecer con lectores y estados
+    return prestamos;
+  }
+}
+```
+
+### Controller
+
+```ts
+@Controller('prestamos')
+export class PrestamosController {
+  constructor(private readonly service: PrestamosService) {}
+
+  @Get()
+  findAll(): Promise<any[]> {
+    return this.service.findAll();
+  }
+}
+```
+
+---
+
+## ⚙️ AdminJS
+
+Se puede utilizar para administrar gráficamente las entidades:
+
+```ts
+dynamicImport('@adminjs/nestjs').then(({ AdminModule }) =>
+  AdminModule.createAdminAsync({
+    useFactory: async () => {
+      const AdminJS = (await dynamicImport('adminjs')).default;
+      return {
+        adminJsOptions: {
+          rootPath: '/admin',
+          resources: [...entities],
+        },
+      };
+    },
+  }),
+);
+```
+
+---
+
+## 🧠 Comparación entre MongoDB y PostgreSQL
+
+| Característica          | MongoDB                        | PostgreSQL                          |
+| ----------------------- | ------------------------------ | ----------------------------------- |
+| Tipo de DB              | No relacional (documental)     | Relacional (SQL)                    |
+| Relaciones              | Manuales (por ID, en service)  | Implícitas (con `@ManyToOne`, etc.) |
+| Flexibilidad de esquema | Alta                           | Rígida                              |
+| Seeds                   | Referencias por ObjectId       | Relaciones directas entre entidades |
+| Consultas               | Agregadas en lógica (servicio) | Con `JOIN` directo en consulta      |
+
+---
+
+## 🧪 Pruebas
+
+1. Levantar la base de datos con Docker (`docker-compose up`)
+2. Ejecutar los seeds con `ts-node src/seeds/seedPrestamos.ts`
+3. Correr el servidor NestJS con `npm run start:dev`
+4. Acceder a `/admin` para visualizar con AdminJS
+
+---
+
+## 🧑‍💻 Autores
+
+* @AgusLiendo
+* @EliasDalmasso
+* @MaschioPablo
+* @Balti2003
+* @ManuelVeronese
+* @Ignaciofumero
+
+---
+
+¿Querés que te genere también el `docker-compose.yml` para MongoDB y PostgreSQL juntos?
