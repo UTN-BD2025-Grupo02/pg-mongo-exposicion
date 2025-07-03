@@ -1,4 +1,3 @@
-Perfecto, Agustín. A continuación te dejo una versión estructurada de tu contenido en formato de **README tipo tutorial**, ideal para un repositorio en GitHub o entrega académica. Se presenta como una guía paso a paso para implementar la base de datos en PostgreSQL y MongoDB usando NestJS.
 
 ---
 
@@ -540,5 +539,3 @@ dynamicImport('@adminjs/nestjs').then(({ AdminModule }) =>
 * @Ignaciofumero
 
 ---
-
-¿Querés que te genere también el `docker-compose.yml` para MongoDB y PostgreSQL juntos?
