@@ -2,51 +2,89 @@ import { Injectable } from '@nestjs/common';
 import { MongoRepository } from 'typeorm';
 import { PrestamoEntity } from '../entities/prestamo.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EstadoPrestamoEntity } from '../entities/estadoPrestamo.entity';
-import { LectorEntity } from '../entities/lector.entity';
+
 
 @Injectable()
 export class PrestamosService {
   private prestamoRepository: MongoRepository<PrestamoEntity>;
-  private estadoRepository: MongoRepository<EstadoPrestamoEntity>;
-  private lectorRepository: MongoRepository<LectorEntity>;
+
 
   constructor(
     @InjectRepository(PrestamoEntity)
     prestamoRepository: MongoRepository<PrestamoEntity>,
-
-    @InjectRepository(EstadoPrestamoEntity)
-    estadoRepository: MongoRepository<EstadoPrestamoEntity>,
-
-    @InjectRepository(LectorEntity)
-    lectorRepository: MongoRepository<LectorEntity>,
   ) {
     this.prestamoRepository = prestamoRepository;
-    this.estadoRepository = estadoRepository;
-    this.lectorRepository = lectorRepository;
   }
 
   async findAll(): Promise<any[]> {
-    const prestamos = await this.prestamoRepository.find();
+    return await this.prestamoRepository.aggregate([
+      // Join con estado del préstamo
+      {
+        $lookup: {
+          from: 'estado_prestamo',
+          localField: 'estado',
+          foreignField: '_id',
+          as: 'estado'
+        }
+      },
+      { $unwind: '$estado' },
 
-    const lectoresIds = prestamos.map((p) => p.lector);
-    const estadosIds = prestamos.map((p) => p.estado);
+      // Join con lector
+      {
+        $lookup: {
+          from: 'lector',
+          localField: 'lector',
+          foreignField: '_id',
+          as: 'lector'
+        }
+      },
+      { $unwind: '$lector' },
 
+      // Join con detalles del préstamo
+      {
+        $lookup: {
+          from: 'detalle_prestamo',
+          localField: '_id',
+          foreignField: 'prestamo',
+          as: 'detalles'
+        }
+      },
 
+      // Dentro de cada detalle, hacer join con libro
+      {
+        $unwind: {
+          path: '$detalles',
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        $lookup: {
+          from: 'libro',
+          localField: 'detalles.libro',
+          foreignField: '_id',
+          as: 'detalles.libro'
+        }
+      },
+      {
+        $unwind: {
+          path: '$detalles.libro',
+          preserveNullAndEmptyArrays: true
+        }
+      },
 
-    const lectores = await this.lectorRepository.find({
-      where: { _id: {$in: lectoresIds} },
-    });
-    const estados = await this.estadoRepository.find({
-      where: { _id: {$in: estadosIds} },
-    });
-
-
-
-    return prestamos.map((prestamo) => ({
-      ...prestamo,
-      lector: lectores.find((l) => l._id.equals(prestamo.lector)),
-      estado: estados.find((e) => e._id.equals(prestamo.estado)),
-    }));
+      // Reconstruir array de detalles por préstamo
+      {
+        $group: {
+          _id: '$_id',
+          fechaPrestamo: { $first: '$fechaPrestamo' },
+          fechaDevolucion: { $first: '$fechaDevolucion' },
+          fechaDevolucionReal: { $first: '$fechaDevolucionReal' },
+          lector: { $first: '$lector' },
+          estado: { $first: '$estado' },
+          detalles: { $push: '$detalles' }
+        }
+      }
+    ]).toArray();
   }
+
 }
