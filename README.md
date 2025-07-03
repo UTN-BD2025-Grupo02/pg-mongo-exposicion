@@ -26,9 +26,12 @@ que vive, tipo de libros que le gustan leer y el número de habitantes de su ciu
 
 # Diferencias
 
-En cuanto a la diferencia mas radical a MongoDB, se encuentra en el typeORM, es decir, donde estan las relaciones. Como por ejemplo, prestamo entity
+En cuanto a la diferencia mas radical a MongoDB, se encuentra en el typeORM, es decir, donde estan las relaciones.
 
-## Entity Postgres
+## Ejemplo: Prestamo
+
+
+### Entity Postgres
 
 ```
 import {
