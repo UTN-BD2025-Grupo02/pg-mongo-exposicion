@@ -391,7 +391,7 @@ export async function seedPrestamos() {
 
 ## ⚙️ Service
 
-### Services Postgres
+### Prestamo Services Postgres
 
 ```ts
 import { Injectable } from '@nestjs/common';
@@ -418,60 +418,106 @@ export class PrestamosService {
 }
 ```
 ---
-### Service MongoDB
+### Prestamo Service MongoDB
 
 ```ts
 import { Injectable } from '@nestjs/common';
 import { MongoRepository } from 'typeorm';
 import { PrestamoEntity } from '../entities/prestamo.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EstadoPrestamoEntity } from '../entities/estadoPrestamo.entity';
-import { LectorEntity } from '../entities/lector.entity';
+
 
 @Injectable()
 export class PrestamosService {
   private prestamoRepository: MongoRepository<PrestamoEntity>;
-  private estadoRepository: MongoRepository<EstadoPrestamoEntity>;
-  private lectorRepository: MongoRepository<LectorEntity>;
+
 
   constructor(
     @InjectRepository(PrestamoEntity)
     prestamoRepository: MongoRepository<PrestamoEntity>,
-
-    @InjectRepository(EstadoPrestamoEntity)
-    estadoRepository: MongoRepository<EstadoPrestamoEntity>,
-
-    @InjectRepository(LectorEntity)
-    lectorRepository: MongoRepository<LectorEntity>,
   ) {
     this.prestamoRepository = prestamoRepository;
-    this.estadoRepository = estadoRepository;
-    this.lectorRepository = lectorRepository;
   }
 
   async findAll(): Promise<any[]> {
-    const prestamos = await this.prestamoRepository.find();
+    return await this.prestamoRepository.aggregate([
+      // Join con estado del préstamo
+      {
+        $lookup: {
+          //coleccion a unir
+          from: 'estado_prestamo',
+          //campo en la entidad actual (Prestamo)
+          localField: 'estado',
+          //Campo en la entidad a unir (EstadoPrestamo)
+          foreignField: '_id',
+          //Nombre del campo en la entidad resultante
+          as: 'estado'
+        }
+      },
+      //Convierte el array en un objeto
+      { $unwind: '$estado' },
 
-    const lectoresIds = prestamos.map((p) => p.lector);
-    const estadosIds = prestamos.map((p) => p.estado);
+      // Join con lector
+      {
+        $lookup: {
+          from: 'lector',
+          localField: 'lector',
+          foreignField: '_id',
+          as: 'lector'
+        }
+      },
+      { $unwind: '$lector' },
 
+      // Join con detalles del préstamo
+      {
+        $lookup: {
+          from: 'detalle_prestamo',
+          localField: '_id',
+          foreignField: 'prestamo',
+          as: 'detalles'
+        }
+      },
 
+      // Dentro de cada detalle, hacer join con libro
+      {
+        $unwind: {
+          path: '$detalles',
+          //Para evitar eliminar detalles que no tengan libro
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        $lookup: {
+          from: 'libro',
+          localField: 'detalles.libro',
+          foreignField: '_id',
+          as: 'detalles.libro'
+        }
+      },
+      {
+        $unwind: {
+          path: '$detalles.libro',
+          preserveNullAndEmptyArrays: true
+        }
+      },
 
-    const lectores = await this.lectorRepository.find({
-      where: { _id: {$in: lectoresIds} },
-    });
-    const estados = await this.estadoRepository.find({
-      where: { _id: {$in: estadosIds} },
-    });
-
-
-
-    return prestamos.map((prestamo) => ({
-      ...prestamo,
-      lector: lectores.find((l) => l._id.equals(prestamo.lector)),
-      estado: estados.find((e) => e._id.equals(prestamo.estado)),
-    }));
+      // Reconstruir el array de prestamos para incorporar los detalles
+      {
+        $group: {
+          _id: '$_id',
+          fechaPrestamo: { $first: '$fechaPrestamo' },
+          fechaDevolucion: { $first: '$fechaDevolucion' },
+          fechaDevolucionReal: { $first: '$fechaDevolucionReal' },
+          //$first mantiene los primeros elementos (incorporados previamente) de cada grupo
+          lector: { $first: '$lector' },
+          estado: { $first: '$estado' },
+          //$push incorpora los elementos de cada grupo en un array
+          detalles: { $push: '$detalles' }
+        }
+      }
+    ]).toArray();
   }
+
 }
 ```
 
