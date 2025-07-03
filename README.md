@@ -33,7 +33,7 @@ En cuanto a la diferencia mas radical a MongoDB, se encuentra en el typeORM, es 
 
 ### Entity Postgres
 
-```
+```ts
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -75,7 +75,7 @@ export class PrestamoEntity extends BaseEntity {
 ```
 
 ### Entity Mongo
-```
+```ts
 import { Entity, Column, BaseEntity, ObjectIdColumn } from 'typeorm';
 import { ObjectId } from 'mongodb';
 
@@ -105,7 +105,7 @@ Las relaciones se ven en el service, donde se implementa la logica para encontra
 
 ### Seeds Postgres
 
-```
+```ts
 import { PrestamoEntity } from "../entities/prestamo.entity"
 import { LectorEntity } from "../entities/lector.entity"
 import { EstadoPrestamoEntity } from "../entities/estadoPrestamo.entity"
@@ -196,7 +196,7 @@ export async function seedPrestamos() {
 
 ### Seeds Mongo
 
-```
+```ts
 import { PrestamoEntity } from "../entities/prestamo.entity"
 import { LectorEntity } from "../entities/lector.entity"
 import { EstadoPrestamoEntity } from "../entities/estadoPrestamo.entity"
@@ -287,7 +287,7 @@ export async function seedPrestamos() {
 
 ### Services Postgres
 
-```
+```ts
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { PrestamoEntity } from '../entities/prestamo.entity';
@@ -314,7 +314,7 @@ export class PrestamosService {
 
 ### Services Mongo
 
-```
+```ts
 import { Injectable } from '@nestjs/common';
 import { MongoRepository } from 'typeorm';
 import { PrestamoEntity } from '../entities/prestamo.entity';
