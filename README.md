@@ -74,7 +74,7 @@ export class PrestamoEntity extends BaseEntity {
 }
 ```
 
-## Entity Mongo
+### Entity Mongo
 ```
 import { Entity, Column, BaseEntity, ObjectIdColumn } from 'typeorm';
 import { ObjectId } from 'mongodb';
@@ -103,7 +103,7 @@ export class PrestamoEntity extends BaseEntity {
 
 Las relaciones se ven en el service, donde se implementa la logica para encontrar un objeto de json. Ademas, tambien las podemos ver en los seeds
 
-## Seeds Postgres
+### Seeds Postgres
 
 ```
 import { PrestamoEntity } from "../entities/prestamo.entity"
@@ -194,7 +194,7 @@ export async function seedPrestamos() {
 }
 ```
 
-## Seeds Mongo
+### Seeds Mongo
 
 ```
 import { PrestamoEntity } from "../entities/prestamo.entity"
@@ -285,7 +285,7 @@ export async function seedPrestamos() {
 }
 ```
 
-## Services Postgres
+### Services Postgres
 
 ```
 import { Injectable } from '@nestjs/common';
@@ -312,7 +312,7 @@ export class PrestamosService {
 }
 ```
 
-## Services Mongo
+### Services Mongo
 
 ```
 import { Injectable } from '@nestjs/common';
