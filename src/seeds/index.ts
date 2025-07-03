@@ -21,19 +21,19 @@ const seedCommands = [
 ]
 
 async function runSeeds() {
-  console.log("🌱 Iniciando proceso de sembrado de datos...\n");
+  console.log("Iniciando proceso de sembrado de datos...\n");
 
   for (const seedCommand of seedCommands) {
     try {
-      console.log(`📦 Ejecutando: ${seedCommand.name}`);
+      console.log(`Ejecutando: ${seedCommand.name}`);
       await seedCommand();
-      console.log(`✅ Completado: ${seedCommand.name}\n`);
+      console.log(`Completado: ${seedCommand.name}\n`);
     } catch (error) {
-      console.error(`❌ Error ejecutando ${seedCommand.name}:`, error);
+      console.error(`Error ejecutando ${seedCommand.name}:`, error);
       break; // Detener si hay un error
     }
   }
 
-  console.log("🎉 Proceso de sembrado completado!");
+  console.log(" Proceso de sembrado completado");
 }
 runSeeds();

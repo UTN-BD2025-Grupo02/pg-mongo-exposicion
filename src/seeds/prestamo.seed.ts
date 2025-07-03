@@ -15,7 +15,7 @@ export async function seedPrestamos() {
     // Verificar si ya existen datos
     const existingPrestamos = await prestamoRepository.count()
     if (existingPrestamos > 0) {
-      console.log("Los préstamos ya están sembrados")
+      console.log("Los préstamos ya están creados")
       return
     }
 
@@ -30,7 +30,7 @@ export async function seedPrestamos() {
     const vencido = await estadoPrestamoRepository.findOne({ where: { valor: "Vencido" } })
 
     if (!juan || !maria || !carlos || !ana || !activo || !devuelto || !vencido) {
-      console.log("❌ No se encontraron todos los lectores o estados. Ejecuta primero esos seeds.")
+      console.log("No se encontraron todos los lectores o estados")
       return
     }
 
@@ -77,9 +77,9 @@ export async function seedPrestamos() {
       await prestamoRepository.save(prestamo)
     }
 
-    console.log("✅ Préstamos sembrados exitosamente")
+    console.log("Préstamos creados exitosamente")
   } catch (error) {
-    console.error("❌ Error sembrando préstamos:", error)
+    console.error("Error creando los préstamos:", error)
   } finally {
     await dataSource.destroy()
   }

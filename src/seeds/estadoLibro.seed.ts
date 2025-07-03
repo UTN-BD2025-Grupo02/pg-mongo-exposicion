@@ -11,7 +11,7 @@ export async function seedEstadosLibro() {
     // Verificar si ya existen datos
     const existingEstados = await estadoLibroRepository.count()
     if (existingEstados > 0) {
-      console.log("Los estados de libro ya están sembrados")
+      console.log("Los estados de libro ya están creados")
       return
     }
 
@@ -22,9 +22,9 @@ export async function seedEstadosLibro() {
       await estadoLibroRepository.save(estado)
     }
 
-    console.log("✅ Estados de libro sembrados exitosamente")
+    console.log("Estados de libro creados exitosamente")
   } catch (error) {
-    console.error("❌ Error sembrando estados de libro:", error)
+    console.error("Error creando los estados de libro:", error)
   } finally {
     await dataSource.destroy()
   }

@@ -15,7 +15,7 @@ export async function seedLibros() {
     // Verificar si ya existen datos
     const existingLibros = await libroRepository.count()
     if (existingLibros > 0) {
-      console.log("Los libros ya están sembrados")
+      console.log("Los libros ya están creados")
       return
     }
 
@@ -30,7 +30,7 @@ export async function seedLibros() {
     const infantil = await tipoLibroRepository.findOne({ where: { nombre: "Infantil" } })
 
     if (!disponible || !prestado || !ficcion || !historia || !ciencia || !arte || !infantil) {
-      console.log("❌ No se encontraron todos los estados o tipos. Ejecuta primero esos seeds.")
+      console.log("No se encontraron todos los estados o tipos")
       return
     }
 
@@ -112,9 +112,9 @@ export async function seedLibros() {
       await libroRepository.save(libro)
     }
 
-    console.log("✅ Libros sembrados exitosamente")
+    console.log("Libros creados exitosamente")
   } catch (error) {
-    console.error("❌ Error sembrando libros:", error)
+    console.error("Error creando los libros:", error)
   } finally {
     await dataSource.destroy()
   }

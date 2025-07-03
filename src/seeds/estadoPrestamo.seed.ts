@@ -11,7 +11,7 @@ export async function seedEstadosPrestamo() {
     // Verificar si ya existen datos
     const existingEstados = await estadoPrestamoRepository.count()
     if (existingEstados > 0) {
-      console.log("Los estados de préstamo ya están sembrados")
+      console.log("Los estados de préstamo ya están creados")
       return
     }
 
@@ -22,9 +22,9 @@ export async function seedEstadosPrestamo() {
       await estadoPrestamoRepository.save(estado)
     }
 
-    console.log("✅ Estados de préstamo sembrados exitosamente")
+    console.log("Estados de préstamo creados exitosamente")
   } catch (error) {
-    console.error("❌ Error sembrando estados de préstamo:", error)
+    console.error("❌ Error creando los estados de préstamo:", error)
   } finally {
     await dataSource.destroy()
   }

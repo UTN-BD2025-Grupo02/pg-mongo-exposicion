@@ -15,7 +15,7 @@ export async function seedFavoritosLector() {
     // Verificar si ya existen datos
     const existingFavoritos = await favoritosRepository.count()
     if (existingFavoritos > 0) {
-      console.log("Los favoritos de lectores ya están sembrados")
+      console.log("Los favoritos de lectores ya están creados")
       return
     }
 
@@ -32,7 +32,7 @@ export async function seedFavoritosLector() {
     const infantil = await tipoLibroRepository.findOne({ where: { nombre: "Infantil" } })
 
     if (!juan || !maria || !carlos || !ana || !ficcion || !historia || !ciencia || !arte || !infantil) {
-      console.log("❌ No se encontraron todos los lectores o tipos de libro.")
+      console.log("No se encontraron todos los lectores o tipos de libro.")
       return
     }
 
@@ -59,9 +59,9 @@ export async function seedFavoritosLector() {
       await favoritosRepository.save(favorito)
     }
 
-    console.log("✅ Favoritos de lectores sembrados exitosamente")
+    console.log("Favoritos de lectores creados exitosamente")
   } catch (error) {
-    console.error("❌ Error sembrando favoritos de lectores:", error)
+    console.error("Error creando los favoritos de lectores:", error)
   } finally {
     await dataSource.destroy()
   }
