@@ -265,7 +265,7 @@ export class AppModule {}
 
 # Postgres
 
-En cuanto a la diferencia mas radical en cuanto a MongoDB, se encuentra en el typeORM, es decir, donde estan las relaciones. Como por ejemplo, prestamo entity
+En cuanto a la diferencia mas radical a MongoDB, se encuentra en el typeORM, es decir, donde estan las relaciones. Como por ejemplo, prestamo entity
 
 ## Postgres
 
