@@ -11,7 +11,7 @@ export async function seedTiposLibro() {
     // Verificar si ya existen datos
     const existingTipos = await tipoLibroRepository.count()
     if (existingTipos > 0) {
-      console.log("Los tipos de libro ya están sembrados")
+      console.log("Los tipos de libro ya están creados")
       return
     }
 
@@ -28,9 +28,9 @@ export async function seedTiposLibro() {
       await tipoLibroRepository.save(tipo)
     }
 
-    console.log("✅ Tipos de libro sembrados exitosamente")
+    console.log("Tipos de libro creados exitosamente")
   } catch (error) {
-    console.error("❌ Error sembrando tipos de libro:", error)
+    console.error("Error creando los tipos de libro:", error)
   } finally {
     await dataSource.destroy()
   }

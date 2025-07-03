@@ -13,7 +13,7 @@ export async function seedLectores() {
     // Verificar si ya existen datos
     const existingLectores = await lectorRepository.count()
     if (existingLectores > 0) {
-      console.log("Los lectores ya están sembrados")
+      console.log("Los lectores ya están creados")
       return
     }
 
@@ -25,7 +25,7 @@ export async function seedLectores() {
     const laPlata = await ciudadRepository.findOne({ where: { nombre: "La Plata" } })
 
     if (!buenosAires || !cordoba || !rosario || !mendoza || !laPlata) {
-      console.log("❌ No se encontraron todas las ciudades. Ejecuta primero el seed de ciudades.")
+      console.log("No se encontraron todas las ciudades")
       return
     }
 
@@ -45,9 +45,9 @@ export async function seedLectores() {
       await lectorRepository.save(lector)
     }
 
-    console.log("✅ Lectores sembrados exitosamente")
+    console.log("Lectores creados exitosamente")
   } catch (error) {
-    console.error("❌ Error sembrando lectores:", error)
+    console.error("Error creando los lectores:", error)
   } finally {
     await dataSource.destroy()
   }

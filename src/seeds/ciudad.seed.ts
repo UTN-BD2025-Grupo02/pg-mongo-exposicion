@@ -13,7 +13,7 @@ export async function seedCiudades() {
     // Verificar si ya existen datos
     const existingCiudades = await ciudadRepository.count()
     if (existingCiudades > 0) {
-      console.log("Las ciudades ya están sembradas")
+      console.log("Las ciudades ya están creadas")
       return
     }
 
@@ -30,9 +30,9 @@ export async function seedCiudades() {
       await ciudadRepository.save(ciudad)
     }
 
-    console.log("✅ Ciudades sembradas exitosamente")
+    console.log("Ciudades creadas exitosamente")
   } catch (error) {
-    console.error("❌ Error sembrando ciudades:", error)
+    console.error("Error creando las ciudades:", error)
   } finally {
     await dataSource.destroy()
   }

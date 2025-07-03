@@ -17,7 +17,7 @@ export async function seedDetallesPrestamo() {
     // Verificar si ya existen datos
     const existingDetalles = await detallePrestamoRepository.count()
     if (existingDetalles > 0) {
-      console.log("Los detalles de préstamo ya están sembrados")
+      console.log("Los detalles de préstamo ya están creados")
       return
     }
 
@@ -57,7 +57,7 @@ export async function seedDetallesPrestamo() {
       !sanMartin ||
       !principito
     ) {
-      console.log("❌ No se encontraron todos los préstamos o libros necesarios.")
+      console.log("No se encontraron todos los préstamos o libros necesarios")
       return
     }
 
@@ -85,9 +85,9 @@ export async function seedDetallesPrestamo() {
       await detallePrestamoRepository.save(detalle)
     }
 
-    console.log("✅ Detalles de préstamo sembrados exitosamente")
+    console.log("Detalles de préstamo creados exitosamente")
   } catch (error) {
-    console.error("❌ Error sembrando detalles de préstamo:", error)
+    console.error("Error creando los detalles de préstamo:", error)
   } finally {
     await dataSource.destroy()
   }
