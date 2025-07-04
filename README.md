@@ -468,53 +468,6 @@ export class PrestamosService {
       },
       { $unwind: '$lector' },
 
-      // Join con detalles del préstamo
-      {
-        $lookup: {
-          from: 'detalle_prestamo',
-          localField: '_id',
-          foreignField: 'prestamo',
-          as: 'detalles'
-        }
-      },
-
-      // Dentro de cada detalle, hacer join con libro
-      {
-        $unwind: {
-          path: '$detalles',
-          //Para evitar eliminar detalles que no tengan libro
-          preserveNullAndEmptyArrays: true
-        }
-      },
-      {
-        $lookup: {
-          from: 'libro',
-          localField: 'detalles.libro',
-          foreignField: '_id',
-          as: 'detalles.libro'
-        }
-      },
-      {
-        $unwind: {
-          path: '$detalles.libro',
-          preserveNullAndEmptyArrays: true
-        }
-      },
-
-      // Reconstruir el array de prestamos para incorporar los detalles
-      {
-        $group: {
-          _id: '$_id',
-          fechaPrestamo: { $first: '$fechaPrestamo' },
-          fechaDevolucion: { $first: '$fechaDevolucion' },
-          fechaDevolucionReal: { $first: '$fechaDevolucionReal' },
-          //$first mantiene los primeros elementos (incorporados previamente) de cada grupo
-          lector: { $first: '$lector' },
-          estado: { $first: '$estado' },
-          //$push incorpora los elementos de cada grupo en un array
-          detalles: { $push: '$detalles' }
-        }
-      }
     ]).toArray();
   }
 
